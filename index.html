@@ -6,7 +6,49 @@
     <title>Order Form</title>
 </head>
 <body>
-    <h1>Welcome to the Order Form</h1>
-    <p>If you see this, GitHub Pages is working!</p>
-</body>
-</html>
+    <h1>Snack Order Form</h1>
+    <form id="orderForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" required><br><br>
+
+        <label for="idNumber">ID#:</label>
+        <input type="text" id="idNumber" name="idNumber" required><br><br>
+
+        <label for="snacks">Snacks:</label>
+        <input type="text" id="snacks" name="snacks"><br><br>
+
+        <label for="candy">Candy:</label>
+        <input type="text" id="candy" name="candy"><br><br>
+
+        <label for="drinks">Drinks:</label>
+        <input type="text" id="drinks" name="drinks"><br><br>
+
+        <label for="fork">Fork (Yes/No):</label>
+        <select id="fork" name="fork">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select><br><br>
+
+        <label for="total">Total ($):</label>
+        <input type="number" id="total" name="total" step="0.01" required><br><br>
+
+        <button type="submit">Submit Order</button>
+    </form>
+
+    <script>
+        document.getElementById("orderForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            let formData = new FormData(this);
+            let jsonObject = {};
+            formData.forEach((value, key) => {
+                jsonObject[key] = value;
+            });
+
+            fetch("https://script.google.com/macros/s/AKfycbzjIh5T85hqpsIen7v3bJN0VRZ0Uyt_H_6G5WaL4ho7n1rg6_sc1qiOL2WU66SFW0VdWw/exec", {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-T
