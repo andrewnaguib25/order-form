@@ -22,6 +22,7 @@
         <label>Student ID: <input type="text" id="studentID"></label><br><br>
 
         <h3>Select Items</h3>
+
         <label>Snack: 
             <select id="snack">
                 <option value="">Select Snack</option>
@@ -31,6 +32,32 @@
             </select>
             Quantity: <input type="number" id="snackQty" min="1" value="1">
             <button onclick="addToCart('snack')">Add</button>
+        </label><br><br>
+
+        <label>Candy: 
+            <select id="candy">
+                <option value="">Select Candy</option>
+                <option value="M&Ms" data-price="1.00">M&Ms - $1.00</option>
+                <option value="Skittles" data-price="1.00">Skittles - $1.00</option>
+                <option value="Snickers" data-price="1.25">Snickers - $1.25</option>
+            </select>
+            Quantity: <input type="number" id="candyQty" min="1" value="1">
+            <button onclick="addToCart('candy')">Add</button>
+        </label><br><br>
+
+        <label>Drink: 
+            <select id="drink">
+                <option value="">Select Drink</option>
+                <option value="Water" data-price="1.00">Water - $1.00</option>
+                <option value="Soda" data-price="1.50">Soda - $1.50</option>
+                <option value="Juice" data-price="2.00">Juice - $2.00</option>
+            </select>
+            Quantity: <input type="number" id="drinkQty" min="1" value="1">
+            <button onclick="addToCart('drink')">Add</button>
+        </label><br><br>
+
+        <label>
+            <input type="checkbox" id="fork" onclick="toggleFork()"> Add a Fork ($0.25)
         </label><br><br>
 
         <h3>Cart</h3>
@@ -52,6 +79,7 @@
 
     <script>
         let cart = [];
+        let forkAdded = false;
 
         function addToCart(type) {
             let select = document.getElementById(type);
@@ -62,6 +90,17 @@
             if (!itemName || quantity < 1) return;
 
             cart.push({ item: itemName, quantity: parseInt(quantity), price: price * quantity });
+            updateCart();
+        }
+
+        function toggleFork() {
+            if (forkAdded) {
+                cart = cart.filter(item => item.item !== "Fork");
+                forkAdded = false;
+            } else {
+                cart.push({ item: "Fork", quantity: 1, price: 0.25 });
+                forkAdded = true;
+            }
             updateCart();
         }
 
@@ -85,6 +124,10 @@
         }
 
         function removeItem(index) {
+            if (cart[index].item === "Fork") {
+                forkAdded = false;
+                document.getElementById("fork").checked = false;
+            }
             cart.splice(index, 1);
             updateCart();
         }
