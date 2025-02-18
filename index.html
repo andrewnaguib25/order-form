@@ -4,117 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Store Order Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-        }
-        form {
-            max-width: 400px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-        }
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-        }
-        button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        #total {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-        #responseMessage {
-            margin-top: 15px;
-            font-weight: bold;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { width: 50%; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+        .cart { margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+        .total { font-weight: bold; }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h2>Student Store Order Form</h2>
+        <label>Email: <input type="email" id="email"></label><br><br>
+        <label>Full Name: <input type="text" id="fullName"></label><br><br>
+        <label>Student ID: <input type="text" id="studentID"></label><br><br>
 
-    <h2>Student Store Order Form</h2>
-    <form id="orderForm">
-        <input type="email" id="email" placeholder="Your Email" required>
-        <input type="text" id="fullName" placeholder="Full Name" required>
-        <input type="text" id="idNumber" placeholder="Student ID Number" required>
+        <h3>Select Items</h3>
+        <label>Snack: 
+            <select id="snack">
+                <option value="">Select Snack</option>
+                <option value="Cup of Noodles" data-price="1.50">Cup of Noodles - $1.50</option>
+                <option value="Oreos" data-price="1.50">Oreos - $1.50</option>
+                <option value="Takis" data-price="3.00">Takis - $3.00</option>
+            </select>
+            Quantity: <input type="number" id="snackQty" min="1" value="1">
+            <button onclick="addToCart('snack')">Add</button>
+        </label><br><br>
 
-        <label for="snack">Select a Snack:</label>
-        <select id="snack" required>
-            <option value="" disabled selected>Select a snack</option>
-            <option value="Chips" data-price="2.00">Chips - $2.00</option>
-            <option value="Cookies" data-price="1.50">Cookies - $1.50</option>
-            <option value="Soda" data-price="1.75">Soda - $1.75</option>
-            <option value="Candy" data-price="1.25">Candy - $1.25</option>
-        </select>
+        <h3>Cart</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="cartBody"></tbody>
+        </table>
+        <p class="total">Total: $<span id="totalPrice">0.00</span></p>
 
-        <input type="number" id="quantity" placeholder="Quantity" min="1" value="1" required>
-
-        <p id="total">Total: $0.00</p>
-
-        <button type="submit">Submit Order</button>
-    </form>
-
-    <p id="responseMessage"></p>
+        <button onclick="submitOrder()">Submit Order</button>
+    </div>
 
     <script>
-        const snackSelect = document.getElementById("snack");
-        const quantityInput = document.getElementById("quantity");
-        const totalDisplay = document.getElementById("total");
+        let cart = [];
 
-        function updateTotal() {
-            const selectedOption = snackSelect.options[snackSelect.selectedIndex];
-            const price = parseFloat(selectedOption.dataset.price || 0);
-            const quantity = parseInt(quantityInput.value) || 1;
-            const total = (price * quantity).toFixed(2);
-            totalDisplay.textContent = "Total: $" + total;
+        function addToCart(type) {
+            let select = document.getElementById(type);
+            let quantity = document.getElementById(type + 'Qty').value;
+            let itemName = select.options[select.selectedIndex].value;
+            let price = parseFloat(select.options[select.selectedIndex].getAttribute('data-price'));
+            
+            if (!itemName || quantity < 1) return;
+
+            cart.push({ item: itemName, quantity: parseInt(quantity), price: price * quantity });
+            updateCart();
         }
 
-        snackSelect.addEventListener("change", updateTotal);
-        quantityInput.addEventListener("input", updateTotal);
+        function updateCart() {
+            let cartBody = document.getElementById("cartBody");
+            cartBody.innerHTML = "";
+            let total = 0;
 
-        document.getElementById("orderForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            let formData = {
-                email: document.getElementById("email").value,
-                fullName: document.getElementById("fullName").value,
-                idNumber: document.getElementById("idNumber").value,
-                snack: snackSelect.value,
-                quantity: quantityInput.value,
-                total: totalDisplay.textContent.replace("Total: $", "")
-            };
-
-            fetch("YOUR_GOOGLE_APPS_SCRIPT_URL_HERE", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("responseMessage").textContent = data.message;
-            })
-            .catch(error => {
-                document.getElementById("responseMessage").textContent = "Error submitting order. Try again!";
-                console.error("Error:", error);
+            cart.forEach((item, index) => {
+                total += item.price;
+                cartBody.innerHTML += `
+                    <tr>
+                        <td>${item.item}</td>
+                        <td>${item.quantity}</td>
+                        <td>$${item.price.toFixed(2)}</td>
+                        <td><button onclick="removeItem(${index})">Remove</button></td>
+                    </tr>
+                `;
             });
+            document.getElementById("totalPrice").textContent = total.toFixed(2);
+        }
 
-            document.getElementById("orderForm").reset();
-            totalDisplay.textContent = "Total: $0.00";
-        });
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function submitOrder() {
+            let email = document.getElementById("email").value;
+            let fullName = document.getElementById("fullName").value;
+            let studentID = document.getElementById("studentID").value;
+            
+            if (!email || !fullName || !studentID || cart.length === 0) {
+                alert("Please complete all fields and add at least one item.");
+                return;
+            }
+
+            let order = {
+                email,
+                fullName,
+                studentID,
+                items: cart,
+                total: document.getElementById("totalPrice").textContent
+            };
+            console.log("Order Submitted:", order);
+            alert("Order submitted successfully!");
+        }
     </script>
-
 </body>
 </html>
