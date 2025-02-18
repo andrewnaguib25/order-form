@@ -6,46 +6,74 @@
     <title>Student Store Order Form</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .container { width: 50%; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
-        .cart { margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
-        .total { font-weight: bold; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .cart {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        button {
+            width: 100%;
+            background: green;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Student Store Order Form</h2>
-        <label>Email: <input type="email" id="email"></label><br><br>
-        <label>Full Name: <input type="text" id="fullName"></label><br><br>
-        <label>Student ID: <input type="text" id="studentID"></label><br><br>
-
+        <input type="email" id="email" placeholder="Your Email">
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="text" id="id" placeholder="Student ID Number">
+        
         <h3>Select Items</h3>
-        <label>Snack: 
-            <select id="snack">
+        <div id="items">
+            <label>Snacks:</label>
+            <select class="item-select" data-category="snacks">
                 <option value="">Select Snack</option>
                 <option value="Cup of Noodles" data-price="1.50">Cup of Noodles - $1.50</option>
+                <option value="Pop Tarts" data-price="1.50">Pop Tarts - $1.50</option>
                 <option value="Oreos" data-price="1.50">Oreos - $1.50</option>
+                <option value="Uncrustable" data-price="2.00">Uncrustable - $2.00</option>
+                <option value="Mac' N Cheese" data-price="2.00">Mac' N Cheese - $2.00</option>
                 <option value="Takis" data-price="3.00">Takis - $3.00</option>
             </select>
-            Quantity: <input type="number" id="snackQty" min="1" value="1">
-            <button onclick="addToCart('snack')">Add</button>
-        </label><br><br>
-
-        <h3>Cart</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Remove</th>
-                </tr>
-            </thead>
-            <tbody id="cartBody"></tbody>
-        </table>
-        <p class="total">Total: $<span id="totalPrice">0.00</span></p>
+            <input type="number" class="item-qty" min="1" value="1">
+            <button onclick="addItem(this)">Add</button>
+        </div>
+        
+        <div id="cart" class="cart">
+            <h3>Cart</h3>
+            <ul id="cart-items"></ul>
+            <p class="total">Total: $<span id="total">0.00</span></p>
+        </div>
 
         <button onclick="submitOrder()">Submit Order</button>
     </div>
@@ -53,61 +81,43 @@
     <script>
         let cart = [];
 
-        function addToCart(type) {
-            let select = document.getElementById(type);
-            let quantity = document.getElementById(type + 'Qty').value;
-            let itemName = select.options[select.selectedIndex].value;
-            let price = parseFloat(select.options[select.selectedIndex].getAttribute('data-price'));
+        function addItem(button) {
+            let select = $(button).siblings('.item-select');
+            let qty = $(button).siblings('.item-qty').val();
+            let name = select.find(':selected').val();
+            let price = parseFloat(select.find(':selected').data('price'));
             
-            if (!itemName || quantity < 1) return;
-
-            cart.push({ item: itemName, quantity: parseInt(quantity), price: price * quantity });
+            if (!name) return alert("Please select an item");
+            
+            cart.push({ name, qty: parseInt(qty), price });
             updateCart();
         }
 
         function updateCart() {
-            let cartBody = document.getElementById("cartBody");
-            cartBody.innerHTML = "";
             let total = 0;
-
-            cart.forEach((item, index) => {
-                total += item.price;
-                cartBody.innerHTML += `
-                    <tr>
-                        <td>${item.item}</td>
-                        <td>${item.quantity}</td>
-                        <td>$${item.price.toFixed(2)}</td>
-                        <td><button onclick="removeItem(${index})">Remove</button></td>
-                    </tr>
-                `;
+            let list = $('#cart-items');
+            list.empty();
+            
+            cart.forEach(item => {
+                total += item.price * item.qty;
+                list.append(`<li>${item.qty}x ${item.name} - $${(item.price * item.qty).toFixed(2)}</li>`);
             });
-            document.getElementById("totalPrice").textContent = total.toFixed(2);
-        }
-
-        function removeItem(index) {
-            cart.splice(index, 1);
-            updateCart();
+            
+            $('#total').text(total.toFixed(2));
         }
 
         function submitOrder() {
-            let email = document.getElementById("email").value;
-            let fullName = document.getElementById("fullName").value;
-            let studentID = document.getElementById("studentID").value;
+            let email = $('#email').val();
+            let name = $('#name').val();
+            let id = $('#id').val();
             
-            if (!email || !fullName || !studentID || cart.length === 0) {
-                alert("Please complete all fields and add at least one item.");
+            if (!email || !name || !id || cart.length === 0) {
+                alert("Please fill all fields and add items to cart");
                 return;
             }
 
-            let order = {
-                email,
-                fullName,
-                studentID,
-                items: cart,
-                total: document.getElementById("totalPrice").textContent
-            };
-            console.log("Order Submitted:", order);
-            alert("Order submitted successfully!");
+            console.log({ email, name, id, cart, total: $('#total').text() });
+            alert("Order submitted!");
         }
     </script>
 </body>
