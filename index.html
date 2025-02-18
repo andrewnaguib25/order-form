@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Store Form</title>
+    <title>Student Store Order Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,7 +18,7 @@
             border-radius: 10px;
             box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
         }
-        input, button {
+        input, select, button {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -31,6 +31,11 @@
         }
         button:hover {
             background-color: #218838;
+        }
+        #total {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
         }
         #responseMessage {
             margin-top: 15px;
@@ -45,25 +50,53 @@
         <input type="email" id="email" placeholder="Your Email" required>
         <input type="text" id="fullName" placeholder="Full Name" required>
         <input type="text" id="idNumber" placeholder="Student ID Number" required>
-        <input type="text" id="snacks" placeholder="Favorite Snack" required>
+
+        <label for="snack">Select a Snack:</label>
+        <select id="snack" required>
+            <option value="" disabled selected>Select a snack</option>
+            <option value="Chips" data-price="2.00">Chips - $2.00</option>
+            <option value="Cookies" data-price="1.50">Cookies - $1.50</option>
+            <option value="Soda" data-price="1.75">Soda - $1.75</option>
+            <option value="Candy" data-price="1.25">Candy - $1.25</option>
+        </select>
+
+        <input type="number" id="quantity" placeholder="Quantity" min="1" value="1" required>
+
+        <p id="total">Total: $0.00</p>
+
         <button type="submit">Submit Order</button>
     </form>
 
     <p id="responseMessage"></p>
 
     <script>
+        const snackSelect = document.getElementById("snack");
+        const quantityInput = document.getElementById("quantity");
+        const totalDisplay = document.getElementById("total");
+
+        function updateTotal() {
+            const selectedOption = snackSelect.options[snackSelect.selectedIndex];
+            const price = parseFloat(selectedOption.dataset.price || 0);
+            const quantity = parseInt(quantityInput.value) || 1;
+            const total = (price * quantity).toFixed(2);
+            totalDisplay.textContent = "Total: $" + total;
+        }
+
+        snackSelect.addEventListener("change", updateTotal);
+        quantityInput.addEventListener("input", updateTotal);
+
         document.getElementById("orderForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
-            // Collect form data
             let formData = {
                 email: document.getElementById("email").value,
                 fullName: document.getElementById("fullName").value,
                 idNumber: document.getElementById("idNumber").value,
-                snacks: document.getElementById("snacks").value
+                snack: snackSelect.value,
+                quantity: quantityInput.value,
+                total: totalDisplay.textContent.replace("Total: $", "")
             };
 
-            // Send data to the server (replace with your Google Apps Script URL later)
             fetch("YOUR_GOOGLE_APPS_SCRIPT_URL_HERE", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -78,8 +111,8 @@
                 console.error("Error:", error);
             });
 
-            // Clear form fields after submission
             document.getElementById("orderForm").reset();
+            totalDisplay.textContent = "Total: $0.00";
         });
     </script>
 
