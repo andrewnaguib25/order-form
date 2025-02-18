@@ -51,20 +51,17 @@ export default function OrderForm() {
   const handleQuantityChange = (snack, quantity) => {
     setOrder((prev) => ({
       ...prev,
-      [snack]: quantity,
+      [snack]: quantity > 0 ? quantity : 0,
     }));
   };
 
   const calculateTotal = () => {
-    let total = Object.entries(order).reduce(
-      (sum, [snack, quantity]) => {
-        const item = snacks.find((s) => s.name === snack);
-        return sum + (item ? item.price * quantity : 0);
-      },
-      0
-    );
+    let total = Object.entries(order).reduce((sum, [snack, quantity]) => {
+      const item = snacks.find((s) => s.name === snack);
+      return sum + (item ? item.price * quantity : 0);
+    }, 0);
     if (selectedCandy) total += 2;
-    if (selectedDrink) total += drinks.includes(selectedDrink) ? (selectedDrink === "Water" ? 1 : 1.75) : 3;
+    if (selectedDrink) total += selectedDrink === "Water" ? 1 : 1.75;
     if (fork) total += 0.25;
     return total.toFixed(2);
   };
@@ -110,7 +107,7 @@ export default function OrderForm() {
         >
           <option value="">Select a Drink</option>
           {drinks.map((drink) => (
-            <option key={drink} value={drink}>{drink}</option>
+            <option key={drink} value={drink}>{drink} - {drink === "Water" ? "$1" : "$1.75"}</option>
           ))}
         </select>
       </div>
