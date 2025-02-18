@@ -1,124 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Store Order Form</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            text-align: center;
-        }
-        .container {
-            max-width: 500px;
-            background: white;
-            padding: 20px;
-            margin: 20px auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .cart {
-            text-align: left;
-            margin-top: 20px;
-        }
-        .total {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        button {
-            width: 100%;
-            background: green;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .hidden { display: none; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Student Store Order Form</h2>
-        <input type="email" id="email" placeholder="Your Email">
-        <input type="text" id="name" placeholder="Full Name">
-        <input type="text" id="id" placeholder="Student ID Number">
-        
-        <h3>Select Items</h3>
-        <div id="items">
-            <label>Snacks:</label>
-            <select class="item-select" data-category="snacks">
-                <option value="">Select Snack</option>
-                <option value="Cup of Noodles" data-price="1.50">Cup of Noodles - $1.50</option>
-                <option value="Pop Tarts" data-price="1.50">Pop Tarts - $1.50</option>
-                <option value="Oreos" data-price="1.50">Oreos - $1.50</option>
-                <option value="Uncrustable" data-price="2.00">Uncrustable - $2.00</option>
-                <option value="Mac' N Cheese" data-price="2.00">Mac' N Cheese - $2.00</option>
-                <option value="Takis" data-price="3.00">Takis - $3.00</option>
-            </select>
-            <input type="number" class="item-qty" min="1" value="1">
-            <button onclick="addItem(this)">Add</button>
-        </div>
-        
-        <div id="cart" class="cart">
-            <h3>Cart</h3>
-            <ul id="cart-items"></ul>
-            <p class="total">Total: $<span id="total">0.00</span></p>
-        </div>
+import { useState } from "react";
 
-        <button onclick="submitOrder()">Submit Order</button>
+export default function OrderForm() {
+  const snacks = [
+    { name: "Cup of Noodles", price: 1.5 },
+    { name: "Pop Tarts", price: 1.5 },
+    { name: "Oreos", price: 1.5 },
+    { name: "Famous Amos", price: 1.5 },
+    { name: "Uncrustable", price: 2 },
+    { name: "Mac 'N Cheese", price: 2 },
+    { name: "Nature Valley Bar", price: 2 },
+    { name: "Clif Bar", price: 2 },
+    { name: "Fit Crunch Bar", price: 3 },
+    { name: "Donuts", price: 3 },
+    { name: "Beef Jerky", price: 3 },
+    { name: "Chester's Fries", price: 1.75 },
+    { name: "Hot Cheetos", price: 1.75 },
+    { name: "Frito Lay Variety", price: 1.75 },
+    { name: "Pringles", price: 2 },
+    { name: "Takis", price: 3 }
+  ];
+
+  const candies = [
+    "Kit Kat",
+    "Twix",
+    "Snickers",
+    "Reese's",
+    "Sour Punch Straws",
+    "Skittles",
+    "Sour Patch Kids"
+  ];
+
+  const drinks = [
+    "Water",
+    "Sprite",
+    "Coke",
+    "Diet Coke",
+    "Dr. Pepper",
+    "Sunkist",
+    "Fruit Punch Gatorade",
+    "Lemon Lime Gatorade",
+    "Starbucks",
+    "Fairlife"
+  ];
+
+  const [order, setOrder] = useState({});
+  const [selectedCandy, setSelectedCandy] = useState("");
+  const [selectedDrink, setSelectedDrink] = useState("");
+  const [fork, setFork] = useState(false);
+
+  const handleQuantityChange = (snack, quantity) => {
+    setOrder((prev) => ({
+      ...prev,
+      [snack]: quantity,
+    }));
+  };
+
+  const calculateTotal = () => {
+    let total = Object.entries(order).reduce(
+      (sum, [snack, quantity]) => {
+        const item = snacks.find((s) => s.name === snack);
+        return sum + (item ? item.price * quantity : 0);
+      },
+      0
+    );
+    if (selectedCandy) total += 2;
+    if (selectedDrink) total += drinks.includes(selectedDrink) ? (selectedDrink === "Water" ? 1 : 1.75) : 3;
+    if (fork) total += 0.25;
+    return total.toFixed(2);
+  };
+
+  return (
+    <div className="p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4">
+      <h1 className="text-xl font-bold">Student Store Order Form</h1>
+      <div>
+        {snacks.map(({ name }) => (
+          <div key={name} className="flex justify-between items-center mb-2">
+            <span>{name}</span>
+            <input
+              type="number"
+              min="0"
+              className="border p-1 w-16"
+              value={order[name] || ""}
+              onChange={(e) => handleQuantityChange(name, Number(e.target.value))}
+            />
+          </div>
+        ))}
+      </div>
+      
+      <div>
+        <label className="block font-semibold">Candy:</label>
+        <select
+          className="border p-2 w-full"
+          value={selectedCandy}
+          onChange={(e) => setSelectedCandy(e.target.value)}
+        >
+          <option value="">Select a Candy</option>
+          {candies.map((candy) => (
+            <option key={candy} value={candy}>{candy} - $2</option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label className="block font-semibold">Drink:</label>
+        <select
+          className="border p-2 w-full"
+          value={selectedDrink}
+          onChange={(e) => setSelectedDrink(e.target.value)}
+        >
+          <option value="">Select a Drink</option>
+          {drinks.map((drink) => (
+            <option key={drink} value={drink}>{drink}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          className="mr-2"
+          checked={fork}
+          onChange={() => setFork(!fork)}
+        />
+        <span>Add Fork ($0.25)</span>
+      </div>
+
+      <h2 className="text-lg font-semibold">Total: ${calculateTotal()}</h2>
+      <button className="bg-green-500 text-white p-2 rounded w-full">Submit Order</button>
     </div>
-
-    <script>
-        let cart = [];
-
-        function addItem(button) {
-            let select = $(button).siblings('.item-select');
-            let qty = $(button).siblings('.item-qty').val();
-            let name = select.find(':selected').val();
-            let price = parseFloat(select.find(':selected').data('price'));
-            
-            if (!name) return alert("Please select an item");
-            
-            cart.push({ name, qty: parseInt(qty), price });
-            updateCart();
-        }
-
-        function updateCart() {
-            let total = 0;
-            let list = $('#cart-items');
-            list.empty();
-            
-            cart.forEach(item => {
-                total += item.price * item.qty;
-                list.append(`<li>${item.qty}x ${item.name} - $${(item.price * item.qty).toFixed(2)}</li>`);
-            });
-            
-            $('#total').text(total.toFixed(2));
-        }
-
-        function submitOrder() {
-            let email = $('#email').val();
-            let name = $('#name').val();
-            let id = $('#id').val();
-            
-            if (!email || !name || !id || cart.length === 0) {
-                alert("Please fill all fields and add items to cart");
-                return;
-            }
-
-            console.log({ email, name, id, cart, total: $('#total').text() });
-            alert("Order submitted!");
-        }
-    </script>
-</body>
-</html>
+  );
+}
