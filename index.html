@@ -50,43 +50,6 @@
             <button onclick="addToCart('snack')">Add</button>
         </label><br><br>
 
-        <label>Candy: 
-            <select id="candy">
-                <option value="">Select Candy</option>
-                <option value="Kit Kat" data-price="2.00">Kit Kat - $2.00</option>
-                <option value="Twix" data-price="2.00">Twix - $2.00</option>
-                <option value="Snickers" data-price="2.00">Snickers - $2.00</option>
-                <option value="Reese's" data-price="2.00">Reese's - $2.00</option>
-                <option value="Sour Punch Straws" data-price="2.00">Sour Punch Straws - $2.00</option>
-                <option value="Skittles" data-price="2.00">Skittles - $2.00</option>
-                <option value="Sour Patch Kids" data-price="2.00">Sour Patch Kids - $2.00</option>
-            </select>
-            Quantity: <input type="number" id="candyQty" min="1" value="1">
-            <button onclick="addToCart('candy')">Add</button>
-        </label><br><br>
-
-        <label>Drink: 
-            <select id="drink">
-                <option value="">Select Drink</option>
-                <option value="Water" data-price="1.00">Water - $1.00</option>
-                <option value="Sprite" data-price="1.75">Sprite - $1.75</option>
-                <option value="Coke" data-price="1.75">Coke - $1.75</option>
-                <option value="Diet Coke" data-price="1.75">Diet Coke - $1.75</option>
-                <option value="Dr. Pepper" data-price="1.75">Dr. Pepper - $1.75</option>
-                <option value="Sunkist" data-price="1.75">Sunkist - $1.75</option>
-                <option value="Fruit Punch Gatorade" data-price="3.00">Fruit Punch Gatorade - $3.00</option>
-                <option value="Lemon Lime Gatorade" data-price="3.00">Lemon Lime Gatorade - $3.00</option>
-                <option value="Starbucks" data-price="3.00">Starbucks - $3.00</option>
-                <option value="Fairlife" data-price="3.00">Fairlife - $3.00</option>
-            </select>
-            Quantity: <input type="number" id="drinkQty" min="1" value="1">
-            <button onclick="addToCart('drink')">Add</button>
-        </label><br><br>
-
-        <h3>Do you need a Fork?</h3>
-        <label><input type="radio" name="fork" value="yes" onclick="toggleFork(true)"> Yes ($0.25)</label>
-        <label><input type="radio" name="fork" value="no" onclick="toggleFork(false)" checked> No</label>
-
         <h3>Cart</h3>
         <table>
             <thead>
@@ -105,7 +68,78 @@
     </div>
 
     <script>
-        // JavaScript remains the same as before
+        let cart = [];
+
+        function addToCart(type) {
+            let selectElement = $("#" + type);
+            let quantityElement = $("#" + type + "Qty");
+            let itemName = selectElement.find("option:selected").val();
+            let price = parseFloat(selectElement.find("option:selected").data("price"));
+            let quantity = parseInt(quantityElement.val());
+
+            if (!itemName) {
+                alert("Please select an item.");
+                return;
+            }
+
+            // Check if item is already in cart
+            let existingItem = cart.find(item => item.name === itemName);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ name: itemName, quantity, price });
+            }
+
+            updateCart();
+            selectElement.val(""); // Reset dropdown
+            quantityElement.val(1); // Reset quantity
+        }
+
+        function updateCart() {
+            let cartBody = $("#cartBody");
+            cartBody.empty();
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                let itemTotal = item.quantity * item.price;
+                total += itemTotal;
+                cartBody.append(`
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.quantity}</td>
+                        <td>$${itemTotal.toFixed(2)}</td>
+                        <td><button onclick="removeFromCart(${index})">Remove</button></td>
+                    </tr>
+                `);
+            });
+
+            $("#totalPrice").text(total.toFixed(2));
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function submitOrder() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let email = $("#email").val();
+            let fullName = $("#fullName").val();
+            let studentID = $("#studentID").val();
+
+            if (!email || !fullName || !studentID) {
+                alert("Please fill in all personal details.");
+                return;
+            }
+
+            alert("Order submitted successfully!");
+            cart = [];
+            updateCart();
+        }
     </script>
 </body>
 </html>
