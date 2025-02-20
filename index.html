@@ -131,20 +131,23 @@
         }
 
         function updateCart() {
-            let cartBody = $("#cartBody").empty();
-            let total = cart.reduce((sum, item) => sum + item.quantity * item.price, 0);
+    let cartBody = $("#cartBody").empty();
+    let total = 0;
 
-            cart.forEach((item, index) => {
-                cartBody.append(`<tr>
-                    <td>${item.name}</td>
-                    <td>${item.quantity}</td>
-                    <td>$${(item.quantity * item.price).toFixed(2)}</td>
-                    <td><button onclick="removeFromCart(${index})">Remove</button></td>
-                </tr>`);
-            });
+    cart.forEach((item, index) => {
+        let itemTotal = item.quantity * item.price;
+        total += itemTotal;
 
-            $("#totalPrice").text(total.toFixed(2));
-        }
+        cartBody.append(`<tr>
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>$${itemTotal.toFixed(2)}</td>
+            <td><button onclick="removeFromCart(${index})">Remove</button></td>
+        </tr>`);
+    });
+
+    $("#totalPrice").text(total.toFixed(2));
+}
 
         function removeFromCart(index) { cart.splice(index, 1); updateCart(); }
     </script>
