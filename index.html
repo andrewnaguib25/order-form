@@ -1,3 +1,15 @@
+let cart = [];
+
+function addToCart(name, price) {
+    let item = cart.find(i => i.name === name);
+    if (item) {
+        item.quantity++;
+    } else {
+        cart.push({ name, price, quantity: 1 });
+    }
+    updateCart();
+}
+
 function updateCart() {
     let cartBody = $("#cartBody").empty();
     let total = 0;
