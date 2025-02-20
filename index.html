@@ -1,128 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Store Order Form</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .container { width: 50%; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background: #f9f9f9; }
-        .cart { margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
-        .total { font-weight: bold; font-size: 18px; margin-top: 10px; }
-        button { background: #007BFF; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 5px; }
-        button:hover { background: #0056b3; }
-        select, input { padding: 5px; margin: 5px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Student Store Order Form</h2>
-        <label>Email: <input type="email" id="email"></label><br><br>
-        <label>Full Name: <input type="text" id="fullName"></label><br><br>
-        <label>Student ID: <input type="text" id="studentID"></label><br><br>
+function updateCart() {
+    let cartBody = $("#cartBody").empty();
+    let total = 0;
 
-        <h3>Select Items</h3>
-        <label>Item:
-            <select id="itemSelect">
-                <option value="">Select Item</option>
-                <option value="Cup of Noodles" data-price="1.50">Cup of Noodles - $1.50</option>
-                <option value="Pop Tarts" data-price="1.50">Pop Tarts - $1.50</option>
-                <option value="Kit Kat" data-price="2.00">Kit Kat - $2.00</option>
-                <option value="Water" data-price="1.00">Water - $1.00</option>
-            </select>
-            Quantity: <input type="number" id="itemQty" min="1" value="1">
-            <button onclick="addToCart()">Add</button>
-        </label><br><br>
+    cart.forEach((item, index) => {
+        let itemTotal = item.quantity * item.price;
+        total += itemTotal;
 
-        <h3>Cart</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Remove</th>
-                </tr>
-            </thead>
-            <tbody id="cartBody"></tbody>
-        </table>
-        <p class="total">Total: $<span id="totalPrice">0.00</span></p>
+        cartBody.append(`<tr>
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>$${itemTotal.toFixed(2)}</td>
+            <td><button onclick="removeFromCart(${index})">Remove</button></td>
+        </tr>`);
+    });
 
-        <button onclick="submitOrder()">Submit Order</button>
-    </div>
+    $("#totalPrice").text(total.toFixed(2));
+}
 
-    <script>
-        let cart = [];
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
 
-        function addToCart() {
-            let selectElement = $("#itemSelect");
-            let quantityElement = $("#itemQty");
-            let itemName = selectElement.find("option:selected").val();
-            let price = parseFloat(selectElement.find("option:selected").data("price"));
-            let quantity = parseInt(quantityElement.val());
-
-            if (!itemName) {
-                alert("Please select an item.");
-                return;
-            }
-
-            let existingItem = cart.find(item => item.name === itemName);
-            if (existingItem) {
-                existingItem.quantity += quantity;
-            } else {
-                cart.push({ name: itemName, quantity, price });
-            }
-
-            updateCart();
-            selectElement.val("");
-            quantityElement.val(1);
-        }
-
-        function updateCart() {
-            let cartBody = $("#cartBody").empty();
-            let total = 0;
-
-            cart.forEach((item, index) => {
-                total += item.quantity * item.price;
-                cartBody.append(`<tr>
-                    <td>${item.name}</td>
-                    <td>${item.quantity}</td>
-                    <td>$${(item.quantity * item.price).toFixed(2)}</td>
-                    <td><button onclick="removeItem(${index})">Remove</button></td>
-                </tr>`);
-            });
-
-            $("#totalPrice").text(total.toFixed(2));
-        }
-
-        function removeItem(index) {
-            cart.splice(index, 1);
-            updateCart();
-        }
-
-        function submitOrder() {
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
-
-            let email = $("#email").val().trim();
-            let fullName = $("#fullName").val().trim();
-            let studentID = $("#studentID").val().trim();
-
-            if (!email || !fullName || !studentID) {
-                alert("Please fill in all required fields.");
-                return;
-            }
-
-            alert("Order submitted successfully!");
-            cart = [];
-            updateCart();
-            $("#email, #fullName, #studentID").val("");
-        }
-    </script>
-</body>
-</html>
+function submitOrder() {
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+    alert("Order Submitted!");
+    cart = [];
+    updateCart();
+}
