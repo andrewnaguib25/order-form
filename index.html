@@ -130,6 +130,43 @@
             quantityElement.val(1);
         }
 
+        function submitOrder() {
+    let email = $("#email").val();
+    let fullName = $("#fullName").val();
+    let studentID = $("#studentID").val();
+
+    if (!email || !fullName || !studentID) {
+        alert("Please fill out all fields before submitting your order.");
+        return;
+    }
+
+    let itemsOrdered = cart.map(item => `${item.quantity}x ${item.name}`).join(", ");
+    let totalPrice = $("#totalPrice").text();
+
+    let orderData = {
+        email: email,
+        fullName: fullName,
+        studentID: studentID,
+        itemsOrdered: itemsOrdered,
+        totalPrice: totalPrice
+    };
+
+    $.ajax({
+        url: "PASTE_YOUR_WEB_APP_URL_HERE", // Replace with your Web App URL
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(orderData),
+        success: function(response) {
+            alert("Order submitted successfully!");
+            cart = []; // Clear the cart
+            updateCart(); // Refresh the UI
+        },
+        error: function(error) {
+            alert("Error submitting order. Please try again.");
+        }
+    });
+}
+
         function updateCart() {
     let cartBody = $("#cartBody").empty();
     let total = 0;
