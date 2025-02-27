@@ -1,192 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Store Order Form</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .container { width: 50%; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background: #f9f9f9; }
-        .cart { margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
-        .total { font-weight: bold; font-size: 18px; margin-top: 10px; }
-        button { background: #007BFF; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 5px; }
-        button:hover { background: #0056b3; }
-        select, input { padding: 5px; margin: 5px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Student Store Order Form</h2>
-        <label>Email: <input type="email" id="email"></label><br><br>
-        <label>Full Name: <input type="text" id="fullName"></label><br><br>
-        <label>Student ID: <input type="text" id="studentID"></label><br><br>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+  </head>
+  <body>
+    <section class="hero is-primary is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Data Entry Form</h1>
+        </div>
+      </div>
+    </section>
+    <form id="form" class="container m-4 pl-4" method="POST">
+      <div class="field">
+        <label class="label">Client Name</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            placeholder="Your Client Name"
+            name="Client Name"
+          />
+        </div>
+      </div>
 
-        <h3>Select Items</h3>
+      <!-- <div class="field">
+        <label class="label">Last Name</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            placeholder="Your Last Name"
+            name="Last Name"
+          />
+        </div>
+      </div> -->
 
-        <!-- Snack Dropdown -->
-        <label>Snack: 
-            <select id="snack">
-                <option value="">Select Snack</option>
-                <option value="Cup of Noodles" data-price="1.50">Cup of Noodles - $1.50</option>
-                <option value="Pop Tarts" data-price="1.50">Pop Tarts - $1.50</option>
-                <option value="Oreos" data-price="1.50">Oreos - $1.50</option>
-                <option value="Famous Amos" data-price="1.50">Famous Amos - $1.50</option>
-                <option value="Uncrustable" data-price="2.00">Uncrustable - $2.00</option>
-                <option value="Mac 'N Cheese" data-price="2.00">Mac 'N Cheese - $2.00</option>
-                <option value="Nature Valley Bar" data-price="2.00">Nature Valley Bar - $2.00</option>
-                <option value="Clif Bar" data-price="2.00">Clif Bar - $2.00</option>
-                <option value="Fit Crunch Bar" data-price="3.00">Fit Crunch Bar - $3.00</option>
-                <option value="Donuts" data-price="3.00">Donuts - $3.00</option>
-                <option value="Beef Jerky" data-price="3.00">Beef Jerky - $3.00</option>
-                <option value="Chester's Fries" data-price="1.75">Chester's Fries - $1.75</option>
-                <option value="Hot Cheetos" data-price="1.75">Hot Cheetos - $1.75</option>
-                <option value="Frito Lay Variety" data-price="1.75">Frito Lay Variety - $1.75</option>
-                <option value="Pringles" data-price="2.00">Pringles - $2.00</option>
-                <option value="Takis" data-price="3.00">Takis - $3.00</option>
-            </select>
-            Quantity: <input type="number" id="snackQty" min="1" value="1">
-            <button onclick="addToCart('snack')">Add</button>
-        </label><br><br>
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input
+            class="input"
+            type="email"
+            placeholder="Your Email"
+            name="Email"
+          />
+        </div>
+      </div>
 
-        <!-- Candy Dropdown -->
-        <label>Candy: 
-            <select id="candy">
-                <option value="">Select Candy</option>
-                <option value="Kit Kat" data-price="2.00">Kit Kat - $2.00</option>
-                <option value="Twix" data-price="2.00">Twix - $2.00</option>
-                <option value="Snickers" data-price="2.00">Snickers - $2.00</option>
-                <option value="Reese's" data-price="2.00">Reese's - $2.00</option>
-                <option value="Sour Punch Straws" data-price="2.00">Sour Punch Straws - $2.00</option>
-                <option value="Skittles" data-price="2.00">Skittles - $2.00</option>
-                <option value="Sour Patch Kids" data-price="2.00">Sour Patch Kids - $2.00</option>
-            </select>
-            Quantity: <input type="number" id="candyQty" min="1" value="1">
-            <button onclick="addToCart('candy')">Add</button>
-        </label><br><br>
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+          <input
+            class="input"
+            type="password"
+            placeholder="Your Password"
+            name="Password"
+          />
+        </div>
+      </div>
 
-        <!-- Drinks Dropdown -->
-        <label>Drink: 
-            <select id="drink">
-                <option value="">Select Drink</option>
-                <option value="Water" data-price="1.00">Water - $1.00</option>
-                <option value="Sprite" data-price="1.75">Sprite - $1.75</option>
-                <option value="Coke" data-price="1.75">Coke - $1.75</option>
-                <option value="Diet Coke" data-price="1.75">Diet Coke - $1.75</option>
-                <option value="Dr. Pepper" data-price="1.75">Dr. Pepper - $1.75</option>
-                <option value="Sunkist" data-price="1.75">Sunkist - $1.75</option>
-                <option value="Fruit Punch Gatorade" data-price="3.00">Fruit Punch Gatorade - $3.00</option>
-                <option value="Lemon Lime Gatorade" data-price="3.00">Lemon Lime Gatorade - $3.00</option>
-                <option value="Starbucks" data-price="3.00">Starbucks - $3.00</option>
-                <option value="Fairlife" data-price="3.00">Fairlife - $3.00</option>
-            </select>
-            Quantity: <input type="number" id="drinkQty" min="1" value="1">
-            <button onclick="addToCart('drink')">Add</button>
-        </label><br><br>
+      <div class="field">
+        <label class="label">Date of Birth</label>
+        <div class="control">
+          <input
+            class="input"
+            type="date"
+            placeholder="Your Date of Birth"
+            name="DOB"
+          />
+        </div>
+      </div>
 
-        <h3>Cart</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Remove</th>
-                </tr>
-            </thead>
-            <tbody id="cartBody"></tbody>
-        </table>
-        <p class="total">Total: $<span id="totalPrice">0.00</span></p>
+      <div class="field">
+        <label class="label">Gender</label>
+        <div class="control">
+          <label class="radio">
+            <input type="radio" name="Gender" value="male" /> Male
+          </label>
+          <label class="radio">
+            <input type="radio" name="Gender" value="female" /> Female
+          </label>
+        </div>
+      </div>
 
-        <button onclick="submitOrder()">Submit Order</button>
-    </div>
+      <div class="field">
+        <label class="label">Agree to Terms</label>
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" name="Agree To Terms" value="yes" /> I agree
+            to the terms and conditions
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Additional Information</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Any additional information"
+            name="Notes"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-primary" type="submit" id="submit-button">
+            Sign Up
+          </button>
+        </div>
+        <div class="control">
+          <button class="button is-danger">Cancel</button>
+        </div>
+      </div>
+    </form>
+    <div
+      id="message"
+      style="
+        display: none;
+        margin: 20px;
+        font-weight: bold;
+        color: green;
+        padding: 8px;
+        background-color: beige;
+        border-radius: 4px;
+        border-color: aquamarine;
+      "
+    ></div>
 
     <script>
-        let cart = [];
+      document.getElementById("form").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent the default form submission
+        document.getElementById("message").textContent = "Submitting..";
+        document.getElementById("message").style.display = "block";
+        document.getElementById("submit-button").disabled = true;
 
-        function addToCart(type) {
-            let selectElement = $("#" + type);
-            let quantityElement = $("#" + type + "Qty");
-            let itemName = selectElement.find("option:selected").val();
-            let price = parseFloat(selectElement.find("option:selected").data("price"));
-            let quantity = parseInt(quantityElement.val());
+        // Collect the form data
+        var formData = new FormData(this);
+        var keyValuePairs = [];
+        for (var pair of formData.entries()) {
+          keyValuePairs.push(pair[0] + "=" + pair[1]);
+        }
 
-            if (!itemName) {
-                alert("Please select an item.");
-                return;
-            }
+        var formDataString = keyValuePairs.join("&");
 
-            let existingItem = cart.find(item => item.name === itemName);
-            if (existingItem) {
-                existingItem.quantity += quantity;
+        // Send a POST request to your Google Apps Script
+        fetch(
+          "https://script.google.com/macros/s/AKfycbz_aHKLvz6LO3NT9y9HS9FuIlQ8NZadn2fHcn66HBaT7nheUKF3jJ6eaUN9piFKiD4l/exec",
+          {
+            redirect: "follow",
+            method: "POST",
+            body: formDataString,
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8",
+            },
+          }
+        )
+          .then(function (response) {
+            // Check if the request was successful
+            if (response) {
+              return response; // Assuming your script returns JSON response
             } else {
-                cart.push({ name: itemName, quantity, price });
+              throw new Error("Failed to submit the form.");
             }
+          })
+          .then(function (data) {
+            // Display a success message
+            document.getElementById("message").textContent =
+              "Data submitted successfully!";
+            document.getElementById("message").style.display = "block";
+            document.getElementById("message").style.backgroundColor = "green";
+            document.getElementById("message").style.color = "beige";
+            document.getElementById("submit-button").disabled = false;
+            document.getElementById("form").reset();
 
-            updateCart();
-            selectElement.val("");
-            quantityElement.val(1);
-        }
-
-        function submitOrder() {
-    let email = $("#email").val();
-    let fullName = $("#fullName").val();
-    let studentID = $("#studentID").val();
-
-    if (!email || !fullName || !studentID) {
-        alert("Please fill out all fields before submitting your order.");
-        return;
-    }
-
-    let itemsOrdered = cart.map(item => `${item.quantity}x ${item.name}`).join(", ");
-    let totalPrice = $("#totalPrice").text();
-
-    let orderData = {
-        email: email,
-        fullName: fullName,
-        studentID: studentID,
-        itemsOrdered: itemsOrdered,
-        totalPrice: totalPrice
-    };
-
-    $.ajax({
-        url: "https://script.google.com/macros/s/AKfycbwnjdAi1au4i8aZNqdw7R7EL6a1eu-UsuWh5BcbDj8D5QvrOcJtUNM6yb7tG0btbOOVPg/exec", // Replace with your Web App URL
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(orderData),
-        success: function(response) {
-            alert("Order submitted successfully!");
-            cart = []; // Clear the cart
-            updateCart(); // Refresh the UI
-        },
-        error: function(error) {
-            alert("Error submitting order. Please try again.");
-        }
-    });
-}
-
-        function updateCart() {
-    let cartBody = $("#cartBody").empty();
-    let total = 0;
-
-    cart.forEach((item, index) => {
-        let itemTotal = item.quantity * item.price;
-        total += itemTotal;
-
-        cartBody.append(`<tr>
-            <td>${item.name}</td>
-            <td>${item.quantity}</td>
-            <td>$${itemTotal.toFixed(2)}</td>
-            <td><button onclick="removeFromCart(${index})">Remove</button></td>
-        </tr>`);
-    });
-
-    $("#totalPrice").text(total.toFixed(2));
-}
-
-        function removeFromCart(index) { cart.splice(index, 1); updateCart(); }
+            setTimeout(function () {
+              document.getElementById("message").textContent = "";
+              document.getElementById("message").style.display = "none";
+            }, 2600);
+          })
+          .catch(function (error) {
+            // Handle errors, you can display an error message here
+            console.error(error);
+            document.getElementById("message").textContent =
+              "An error occurred while submitting the form.";
+            document.getElementById("message").style.display = "block";
+          });
+      });
     </script>
-</body>
+  </body>
 </html>
