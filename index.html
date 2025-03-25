@@ -1,101 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Web Form Example</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1>Preorder</h1>
-<div class="form-container">
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+  </head>
+  <body>
+    <section class="hero is-primary is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Data Entry Form</h1>
+        </div>
+      </div>
+    </section>
+    <form id="form" class="container m-4 pl-4" method="POST">
+      <div class="field">
+        <label class="label">Client Name</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            placeholder="Your Client Name"
+            name="Client Name"
+          />
+        </div>
+      </div>
 
-  <h2>ASB Snack Store Pre-order Form</h2>
-  <form id="myForm" action="https://script.google.com/macros/s/AKfycbxj_l5TpLM8ZOlEOZnoDsmJBZ60RkgVBNX_Ge5t_rHQb0rIjKI42KJD-xMF8b69ai9cfQ/exec" method="post">
+      <!-- <div class="field">
+        <label class="label">Last Name</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            placeholder="Your Last Name"
+            name="Last Name"
+          />
+        </div>
+      </div> -->
 
-      <label for="FirstName">First Name:</label>
-      <input type="text" id="firstName" name="FirstName" required>
-      <label for="LastName">Last Name:</label>
-      <input type="text" id="lastName" name="LastName" required>
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input
+            class="input"
+            type="email"
+            placeholder="Your Email"
+            name="Email"
+          />
+        </div>
+      </div>
 
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+          <input
+            class="input"
+            type="password"
+            placeholder="Your Password"
+            name="Password"
+          />
+        </div>
+      </div>
 
-      <label for="age">Age:</label>
-      <input type="number" id="age" name="Age" required>
+      <div class="field">
+        <label class="label">Date of Birth</label>
+        <div class="control">
+          <input
+            class="input"
+            type="date"
+            placeholder="Your Date of Birth"
+            name="DOB"
+          />
+        </div>
+      </div>
 
-      <label for="gender">Select Gender:</label>
-      <select id="gender" name="Gender">
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
+      <div class="field">
+        <label class="label">Gender</label>
+        <div class="control">
+          <label class="radio">
+            <input type="radio" name="Gender" value="male" /> Male
+          </label>
+          <label class="radio">
+            <input type="radio" name="Gender" value="female" /> Female
+          </label>
+        </div>
+      </div>
 
-      <label for="country">Select Country:</label>
-      <select id="country" name="Country">
-        <option value="usa">USA</option>
-        <option value="canada">Canada</option>
-        <option value="uk">UK</option>
-        <option value="nigeria">Nigeria</option>
-        <option value="others">Others</option>
-        <!-- Add more options here -->
-      </select>
+      <div class="field">
+        <label class="label">Agree to Terms</label>
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" name="Agree To Terms" value="yes" /> I agree
+            to the terms and conditions
+          </label>
+        </div>
+      </div>
 
-      <label for="phoneNumber">Phone Number:</label>
-      <input type="text" id="phoneNumber" name="PhoneNumber" required>
+      <div class="field">
+        <label class="label">Additional Information</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Any additional information"
+            name="Notes"
+          ></textarea>
+        </div>
+      </div>
 
-      <label for="email">Email:</label>
-      <input type="text" id="email" name="Email" required>
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-primary" type="submit" id="submit-button">
+            Sign Up
+          </button>
+        </div>
+        <div class="control">
+          <button class="button is-danger">Cancel</button>
+        </div>
+      </div>
+    </form>
+    <div
+      id="message"
+      style="
+        display: none;
+        margin: 20px;
+        font-weight: bold;
+        color: green;
+        padding: 8px;
+        background-color: beige;
+        border-radius: 4px;
+        border-color: aquamarine;
+      "
+    ></div>
 
-      <!-- <!input type="range" name="volume" min="0" max="100" step="1">
-      <input type="color" name="preferred_color"> -->
-      <!-- <input type="number" name="quantity" min="1" max="10" step="1"> -->
-      <!-- <input type="datetime-local" name="event_datetime"> -->
-      <!-- <input type="file" name="file_upload">
-      <input type="date"> -->
+    <script>
+      document.getElementById("form").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent the default form submission
+        document.getElementById("message").textContent = "Submitting..";
+        document.getElementById("message").style.display = "block";
+        document.getElementById("submit-button").disabled = true;
 
-      <label for="message">Message:</label>
-      <textarea autocapitalize="word" type="text" id="message" name="Message" required></textarea><br>
-    <input class="submitButton" type="submit" value="submit" />
-  </form>
-</div>
-<!-- Modal HTML -->
-<div id="myModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p id="modalMessage"></p>
-  </div>
-</div>
+        // Collect the form data
+        var formData = new FormData(this);
+        var keyValuePairs = [];
+        for (var pair of formData.entries()) {
+          keyValuePairs.push(pair[0] + "=" + pair[1]);
+        }
 
-<!-- <div>
-  <textarea name="response" rows="10" cols="30" maxlength=”200”>
+        var formDataString = keyValuePairs.join("&");
 
-  </textarea>
-</div> -->
+        // Send a POST request to your Google Apps Script
+        fetch(
+          "https://script.google.com/macros/s/AKfycbz_aHKLvz6LO3NT9y9HS9FuIlQ8NZadn2fHcn66HBaT7nheUKF3jJ6eaUN9piFKiD4l/exec",
+          {
+            redirect: "follow",
+            method: "POST",
+            body: formDataString,
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8",
+            },
+          }
+        )
+          .then(function (response) {
+            // Check if the request was successful
+            if (response) {
+              return response; // Assuming your script returns JSON response
+            } else {
+              throw new Error("Failed to submit the form.");
+            }
+          })
+          .then(function (data) {
+            // Display a success message
+            document.getElementById("message").textContent =
+              "Data submitted successfully!";
+            document.getElementById("message").style.display = "block";
+            document.getElementById("message").style.backgroundColor = "green";
+            document.getElementById("message").style.color = "beige";
+            document.getElementById("submit-button").disabled = false;
+            document.getElementById("form").reset();
 
-<!-- <div>
-  <details>
-    <summary>Details</summary>
-    Something small enough to escape casual notice.
-  </details>
-</div>
-
-<div>
-  <table style="color: aliceblue;">
-    <tr>
-        <td>Falafel</td>
-        <td>$10.00</td>
-    </tr>
-    <tr>
-        <td>Pasta Salad</td>
-        <td>$12.00</td>
-    </tr>
-    <tr>
-        <td>Dessert</td>
-        <td>$8.00</td>
-    </tr>
-</table>
-</div> -->
-
-<script src="index.js">
-</script>
-</body>
+            setTimeout(function () {
+              document.getElementById("message").textContent = "";
+              document.getElementById("message").style.display = "none";
+            }, 2600);
+          })
+          .catch(function (error) {
+            // Handle errors, you can display an error message here
+            console.error(error);
+            document.getElementById("message").textContent =
+              "An error occurred while submitting the form.";
+            document.getElementById("message").style.display = "block";
+          });
+      });
+    </script>
+  </body>
 </html>
