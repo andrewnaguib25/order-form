@@ -3,7 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Preorder Form</title>
+    <title>ASB STUDENT STORE PREORDER FORM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        h2 {
+            color: #007BFF;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
     <script>
         async function submitForm(event) {
             event.preventDefault();
@@ -28,30 +68,36 @@
     </script>
 </head>
 <body>
-    <h2>Food Preorder Form</h2>
-    <form id="preorderForm" onsubmit="submitForm(event)">
-        <label>Name: <input type="text" name="name" required></label><br>
-        <label>Student ID: <input type="text" name="student_id" required></label><br>
-        <label>Email: <input type="email" name="email" required></label><br>
-        
-        <label>Food Category:
+    <div class="container">
+        <h2>ASB STUDENT STORE PREORDER FORM</h2>
+        <form id="preorderForm" onsubmit="submitForm(event)">
+            <label>Name:</label>
+            <input type="text" name="name" required>
+            
+            <label>Student ID:</label>
+            <input type="text" name="student_id" required>
+            
+            <label>Email:</label>
+            <input type="email" name="email" required>
+            
+            <label>Food Category:</label>
             <select name="food">
                 <option value="snack">Snack</option>
                 <option value="candy">Candy</option>
                 <option value="drink">Drink</option>
             </select>
-        </label><br>
-        
-        <label>Need a Fork? 
+            
+            <label>Need a Fork?</label>
             <select name="fork">
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
             </select>
-        </label><br>
-        
-        <label>Total Price: <input type="number" name="total" required></label><br>
-        
-        <button type="submit">Submit</button>
-    </form>
+            
+            <label>Total Price ($):</label>
+            <input type="number" name="total" step="0.01" required>
+            
+            <button type="submit">Submit Preorder</button>
+        </form>
+    </div>
 </body>
 </html>
