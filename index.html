@@ -45,20 +45,48 @@
         }
     </style>
     <script>
-        function calculateTotal() {
+        let cart = [];
+        function addToCart(category) {
+            let select = document.querySelector(`select[name='${category}']`);
+            let item = select.value;
+            let price = parseFloat(select.selectedOptions[0].getAttribute("data-price")) || 0;
+            let quantity = parseInt(document.querySelector(`input[name='${category}_qty']`).value) || 1;
+            
+            if (item !== "None") {
+                cart.push({ category, item, price, quantity });
+                updateCart();
+            }
+        }
+
+        function updateCart() {
+            let cartList = document.getElementById("cart");
             let total = 0;
-            document.querySelectorAll("select[name='food[]']").forEach(select => {
-                total += parseFloat(select.selectedOptions[0].getAttribute("data-price")) || 0;
+            cartList.innerHTML = "";
+            cart.forEach((entry, index) => {
+                total += entry.price * entry.quantity;
+                let li = document.createElement("li");
+                li.textContent = `${entry.item} x${entry.quantity} - $${(entry.price * entry.quantity).toFixed(2)}`;
+                let removeBtn = document.createElement("button");
+                removeBtn.textContent = "Remove";
+                removeBtn.onclick = () => removeItem(index);
+                li.appendChild(removeBtn);
+                cartList.appendChild(li);
             });
-            let fork = document.querySelector("select[name='fork']").value;
-            if (fork === "Yes") total += 0.25;
             document.getElementById("total").value = total.toFixed(2);
         }
-        
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
         async function submitForm(event) {
             event.preventDefault();
-            const formData = new FormData(document.getElementById("preorderForm"));
-            const data = Object.fromEntries(formData.entries());
+            let formData = new FormData(document.getElementById("preorderForm"));
+            let data = Object.fromEntries(formData.entries());
+            data.cart = cart;
+            data.total = document.getElementById("total").value;
+            
             try {
                 let response = await fetch("YOUR_GOOGLE_SCRIPT_URL", {
                     method: "POST",
@@ -68,7 +96,8 @@
                 });
                 alert("Preorder submitted successfully!");
                 document.getElementById("preorderForm").reset();
-                calculateTotal();
+                cart = [];
+                updateCart();
             } catch (error) {
                 console.error("Error:", error);
                 alert("There was an issue with your submission.");
@@ -89,48 +118,35 @@
             <label>Email:</label>
             <input type="email" name="email" required>
             
-            <label>Food Items (Select multiple):</label>
-            <select name="food[]" onchange="calculateTotal()">
+            <label>Snacks:</label>
+            <select name="snacks">
+                <option value="None" data-price="0">None</option>
                 <option value="CUP OF NOODLES" data-price="1.50">CUP OF NOODLES - $1.50</option>
-                <option value="POP TARTS" data-price="1.50">POP TARTS - $1.50</option>
-                <option value="OREOS" data-price="1.50">OREOS - $1.50</option>
-                <option value="FAMOUS AMOS" data-price="1.50">FAMOUS AMOS - $1.50</option>
-                <option value="UNCRUSTABLE" data-price="2.00">UNCRUSTABLE - $2.00</option>
                 <option value="MAC' N CHEESE" data-price="2.00">MAC' N CHEESE - $2.00</option>
-                <option value="NATURE VALLEY BAR" data-price="2.00">NATURE VALLEY BAR - $2.00</option>
-                <option value="CLIF BAR" data-price="2.00">CLIF BAR - $2.00</option>
-                <option value="FIT CRUNCH BAR" data-price="3.00">FIT CRUNCH BAR - $3.00</option>
-                <option value="DONUTS" data-price="3.00">DONUTS - $3.00</option>
-                <option value="BEEF JERKY" data-price="3.00">BEEF JERKY - $3.00</option>
-                <option value="CHESTER'S FRIES" data-price="1.75">CHESTER'S FRIES - $1.75</option>
-                <option value="HOT CHEETOS" data-price="1.75">HOT CHEETOS - $1.75</option>
-                <option value="FRITO LAY VARIETY" data-price="1.75">FRITO LAY VARIETY - $1.75</option>
-                <option value="PRINGLES" data-price="2.00">PRINGLES - $2.00</option>
-                <option value="TAKIS" data-price="3.00">TAKIS - $3.00</option>
+            </select>
+            <input type="number" name="snacks_qty" min="1" value="1">
+            <button type="button" onclick="addToCart('snacks')">Add to Cart</button>
+            
+            <label>Candy:</label>
+            <select name="candy">
+                <option value="None" data-price="0">None</option>
                 <option value="KIT KAT" data-price="2.00">KIT KAT - $2.00</option>
                 <option value="TWIX" data-price="2.00">TWIX - $2.00</option>
-                <option value="SNICKERS" data-price="2.00">SNICKERS - $2.00</option>
-                <option value="REESE'S" data-price="2.00">REESE'S - $2.00</option>
-                <option value="SOUR PUNCH STRAWS" data-price="2.00">SOUR PUNCH STRAWS - $2.00</option>
-                <option value="SKITTLES" data-price="2.00">SKITTLES - $2.00</option>
-                <option value="SOUR PATCH KIDS" data-price="2.00">SOUR PATCH KIDS - $2.00</option>
-                <option value="WATER" data-price="1.00">WATER - $1.00</option>
-                <option value="SPRITE" data-price="1.75">SPRITE - $1.75</option>
-                <option value="COKE" data-price="1.75">COKE - $1.75</option>
-                <option value="DIET COKE" data-price="1.75">DIET COKE - $1.75</option>
-                <option value="DR. PEPPER" data-price="1.75">DR. PEPPER - $1.75</option>
-                <option value="SUNKIST" data-price="1.75">SUNKIST - $1.75</option>
-                <option value="FRUIT PUNCH GATORADE" data-price="3.00">FRUIT PUNCH GATORADE - $3.00</option>
-                <option value="LEMON LIME GATORADE" data-price="3.00">LEMON LIME GATORADE - $3.00</option>
-                <option value="STARBUCKS" data-price="3.00">STARBUCKS - $3.00</option>
-                <option value="FAIRLIFE" data-price="3.00">FAIRLIFE - $3.00</option>
             </select>
+            <input type="number" name="candy_qty" min="1" value="1">
+            <button type="button" onclick="addToCart('candy')">Add to Cart</button>
             
-            <label>Need a Fork?</label>
-            <select name="fork" onchange="calculateTotal()">
-                <option value="No">No</option>
-                <option value="Yes">Yes - $0.25</option>
+            <label>Drinks:</label>
+            <select name="drinks">
+                <option value="None" data-price="0">None</option>
+                <option value="WATER" data-price="1.00">WATER - $1.00</option>
+                <option value="COKE" data-price="1.75">COKE - $1.75</option>
             </select>
+            <input type="number" name="drinks_qty" min="1" value="1">
+            <button type="button" onclick="addToCart('drinks')">Add to Cart</button>
+            
+            <h3>Cart:</h3>
+            <ul id="cart"></ul>
             
             <label>Total Price ($):</label>
             <input type="text" id="total" name="total" readonly>
