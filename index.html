@@ -18,21 +18,60 @@
       <div class="field">
         <label class="label">Name</label>
         <div class="control">
-          <input class="input" type="text" placeholder="Full Name" name="Name" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Full Name"
+            name="Name"
+          />
         </div>
       </div>
+
+      <!-- <div class="field">
+        <label class="label">Last Name</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            placeholder="Your Last Name"
+            name="Last Name"
+          />
+        </div>
+      </div> -->
 
       <div class="field">
         <label class="label">Email</label>
         <div class="control">
-          <input class="input" type="email" placeholder="Your Email" name="Email" />
+          <input
+            class="input"
+            type="email"
+            placeholder="Your Email"
+            name="Email"
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+          <input
+            class="input"
+            type="password"
+            placeholder="Your Password"
+            name="Password"
+          />
         </div>
       </div>
 
       <div class="field">
         <label class="label">Date of Birth</label>
         <div class="control">
-          <input class="input" type="date" name="DOB" />
+          <input
+            class="input"
+            type="date"
+            placeholder="Your Date of Birth"
+            name="DOB"
+          />
         </div>
       </div>
 
@@ -64,66 +103,109 @@
       </div>
 
       <div class="field">
-        <label class="label">Candy</label>
-        <div class="control">
-          <div class="select">
-            <select name="Candy">
-              <option value="">Select a candy</option>
-              <option value="Kit Kat">Kit Kat - $2</option>
-              <option value="Twix">Twix - $2</option>
-              <option value="Snickers">Snickers - $2</option>
-              <option value="Reese's">Reese's - $2</option>
-              <option value="Sour Punch Straws">Sour Punch Straws - $2</option>
-              <option value="Skittles">Skittles - $2</option>
-              <option value="Sour Patch Kids">Sour Patch Kids - $2</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Drinks</label>
-        <div class="control">
-          <div class="select">
-            <select name="Drinks">
-              <option value="">Select a drink</option>
-              <option value="Water">Water - $1</option>
-              <option value="Sprite">Sprite - $1.75</option>
-              <option value="Coke">Coke - $1.75</option>
-              <option value="Diet Coke">Diet Coke - $1.75</option>
-              <option value="Dr. Pepper">Dr. Pepper - $1.75</option>
-              <option value="Sunkist">Sunkist - $1.75</option>
-              <option value="Fruit Punch Gatorade">Fruit Punch Gatorade - $3</option>
-              <option value="Lemon Lime Gatorade">Lemon Lime Gatorade - $3</option>
-              <option value="Starbucks">Starbucks - $3</option>
-              <option value="Fairlife">Fairlife - $3</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
         <label class="label">Fork</label>
         <div class="control">
-          <label class="radio">
-            <input type="radio" name="Fork" value="Yes" /> Yes ($0.25)
+          <label class="checkbox">
+            <input type="checkbox" name="Fork" value="yes" /> Fork +$0.25
           </label>
-          <label class="radio">
-            <input type="radio" name="Fork" value="No" /> No
-          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Additional Information</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Any additional information"
+            name="Notes"
+          ></textarea>
         </div>
       </div>
 
       <div class="field is-grouped">
         <div class="control">
           <button class="button is-primary" type="submit" id="submit-button">
-            Submit
+            Sign Up
           </button>
         </div>
         <div class="control">
-          <button class="button is-danger" type="reset">Cancel</button>
+          <button class="button is-danger">Cancel</button>
         </div>
       </div>
     </form>
+    <div
+      id="message"
+      style="
+        display: none;
+        margin: 20px;
+        font-weight: bold;
+        color: green;
+        padding: 8px;
+        background-color: beige;
+        border-radius: 4px;
+        border-color: aquamarine;
+      "
+    ></div>
+
+    <script>
+      document.getElementById("form").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent the default form submission
+        document.getElementById("message").textContent = "Submitting..";
+        document.getElementById("message").style.display = "block";
+        document.getElementById("submit-button").disabled = true;
+
+        // Collect the form data
+        var formData = new FormData(this);
+        var keyValuePairs = [];
+        for (var pair of formData.entries()) {
+          keyValuePairs.push(pair[0] + "=" + pair[1]);
+        }
+
+        var formDataString = keyValuePairs.join("&");
+
+        // Send a POST request to your Google Apps Script
+        fetch(
+          "https://script.google.com/macros/s/AKfycbyINycN3oO42NHgG52I0LBt80Z0MHdkrWRUJKX93wuHhtJ-MVf5yTsjU5xF6Us1khJr9Q/exec",
+          {
+            redirect: "follow",
+            method: "POST",
+            body: formDataString,
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8",
+            },
+          }
+        )
+          .then(function (response) {
+            // Check if the request was successful
+            if (response) {
+              return response; // Assuming your script returns JSON response
+            } else {
+              throw new Error("Failed to submit the form.");
+            }
+          })
+          .then(function (data) {
+            // Display a success message
+            document.getElementById("message").textContent =
+              "Data submitted successfully!";
+            document.getElementById("message").style.display = "block";
+            document.getElementById("message").style.backgroundColor = "green";
+            document.getElementById("message").style.color = "beige";
+            document.getElementById("submit-button").disabled = false;
+            document.getElementById("form").reset();
+
+            setTimeout(function () {
+              document.getElementById("message").textContent = "";
+              document.getElementById("message").style.display = "none";
+            }, 2600);
+          })
+          .catch(function (error) {
+            // Handle errors, you can display an error message here
+            console.error(error);
+            document.getElementById("message").textContent =
+              "An error occurred while submitting the form.";
+            document.getElementById("message").style.display = "block";
+          });
+      });
+    </script>
   </body>
 </html>
