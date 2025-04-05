@@ -6,138 +6,158 @@
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
     <style>
-      body {
-        background-color: #f4f4f4;
-      }
-      .form-wrapper {
-        max-width: 700px;
-        margin: auto;
-        margin-top: 2rem;
-      }
-      .hero.is-primary {
-        background-image: linear-gradient(141deg, #209cee 0%, #3273dc 71%, #00d1b2 100%);
-      }
-      #message {
-        transition: all 0.3s ease-in-out;
+      .total-box {
+        background-color: #f5f5f5;
+        border: 2px solid #00d1b2;
+        border-radius: 6px;
+        padding: 1rem;
+        margin-top: 1.5rem;
+        font-weight: bold;
+        font-size: 1.25rem;
+        color: #363636;
       }
     </style>
   </head>
   <body>
     <section class="hero is-primary is-bold">
-      <div class="hero-body has-text-centered">
+      <div class="hero-body">
         <div class="container">
-          <h1 class="title is-2 has-text-weight-bold">ASB PREORDER FORM</h1>
+          <h1 class="title">ASB PREORDER FORM</h1>
         </div>
       </div>
     </section>
-
-    <div class="form-wrapper">
-      <div class="card">
-        <div class="card-content">
-          <form id="form" method="POST">
-            <div class="field">
-              <label class="label">Name</label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  placeholder="Full Name"
-                  name="Name"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="field">
-              <label class="label">Email</label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="email"
-                  placeholder="Your Email"
-                  name="Email"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="field">
-              <label class="label">Snacks</label>
-              <div class="control">
-                <div class="select is-fullwidth">
-                  <select name="Snacks">
-                    <option value="">Select a Snack</option>
-                    <!-- snack options... -->
-                    <option value="Cup of Noodles">Cup of Noodles - $1.50</option>
-                    <option value="Pop Tarts">Pop Tarts - $1.50</option>
-                    <option value="Oreos">Oreos - $1.50</option>
-                    <!-- rest are unchanged -->
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="field">
-              <label class="label">Candy</label>
-              <div class="control">
-                <div class="select is-fullwidth">
-                  <select name="Candy">
-                    <option value="">Select a Candy</option>
-                    <option value="Kit Kat">Kit Kat - $2</option>
-                    <option value="Twix">Twix - $2</option>
-                    <!-- rest unchanged -->
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="field">
-              <label class="label">Drink</label>
-              <div class="control">
-                <div class="select is-fullwidth">
-                  <select name="Drink">
-                    <option value="">Select a Drink</option>
-                    <option value="Water">Water - $1</option>
-                    <option value="Sprite">Sprite - $1.75</option>
-                    <!-- rest unchanged -->
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="field is-grouped mt-5">
-              <div class="control">
-                <button class="button is-link is-medium" type="submit" id="submit-button">
-                  Submit Order
-                </button>
-              </div>
-              <div class="control">
-                <button class="button is-danger is-light is-medium" type="reset">
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </form>
+    <form id="form" class="container m-4 pl-4" method="POST">
+      <div class="field">
+        <label class="label">Name</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Full Name" name="Name" />
         </div>
       </div>
 
-      <div
-        id="message"
-        class="notification is-light has-text-centered mt-4"
-        style="display: none"
-      ></div>
-    </div>
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input class="input" type="email" placeholder="Your Email" name="Email" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Snacks</label>
+        <div class="control">
+          <div class="select">
+            <select name="Snacks" id="snacks">
+              <option value="">Select a Snack</option>
+              <option value="1.5">Cup of Noodles - $1.50</option>
+              <option value="1.5">Pop Tarts - $1.50</option>
+              <option value="1.5">Oreos - $1.50</option>
+              <option value="1.5">Famous Amos - $1.50</option>
+              <option value="2">Uncrustable - $2</option>
+              <option value="2">Mac' N Cheese - $2</option>
+              <option value="2">Nature Valley Bar - $2</option>
+              <option value="2">Clif Bar - $2</option>
+              <option value="3">Fit Crunch Bar - $3</option>
+              <option value="3">Donuts - $3</option>
+              <option value="3">Beef Jerky - $3</option>
+              <option value="1.75">Chester's Fries - $1.75</option>
+              <option value="1.75">Hot Cheetos - $1.75</option>
+              <option value="1.75">Frito Lay Variety - $1.75</option>
+              <option value="2">Pringles - $2</option>
+              <option value="3">Takis - $3</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Candy</label>
+        <div class="control">
+          <div class="select">
+            <select name="Candy" id="candy">
+              <option value="">Select a Candy</option>
+              <option value="2">Kit Kat - $2</option>
+              <option value="2">Twix - $2</option>
+              <option value="2">Snickers - $2</option>
+              <option value="2">Reese's - $2</option>
+              <option value="2">Sour Punch Straws - $2</option>
+              <option value="2">Skittles - $2</option>
+              <option value="2">Sour Patch Kids - $2</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Drink</label>
+        <div class="control">
+          <div class="select">
+            <select name="Drink" id="drink">
+              <option value="">Select a Drink</option>
+              <option value="1">Water - $1</option>
+              <option value="1.75">Sprite - $1.75</option>
+              <option value="1.75">Coke - $1.75</option>
+              <option value="1.75">Diet Coke - $1.75</option>
+              <option value="1.75">Dr. Pepper - $1.75</option>
+              <option value="1.75">Sunkist - $1.75</option>
+              <option value="3">Fruit Punch Gatorade - $3</option>
+              <option value="3">Lemon Lime Gatorade - $3</option>
+              <option value="3">Starbucks - $3</option>
+              <option value="3">Fairlife - $3</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="total-box" id="totalBox">Total: $0.00</div>
+
+      <div class="field is-grouped mt-4">
+        <div class="control">
+          <button class="button is-primary" type="submit" id="submit-button">
+            Submit Order
+          </button>
+        </div>
+        <div class="control">
+          <button class="button is-danger" type="reset">Cancel</button>
+        </div>
+      </div>
+    </form>
+
+    <div
+      id="message"
+      style="
+        display: none;
+        margin: 20px;
+        font-weight: bold;
+        color: green;
+        padding: 8px;
+        background-color: beige;
+        border-radius: 4px;
+        border-color: aquamarine;
+      "
+    ></div>
 
     <script>
+      const snack = document.getElementById("snacks");
+      const candy = document.getElementById("candy");
+      const drink = document.getElementById("drink");
+      const totalBox = document.getElementById("totalBox");
+
+      function updateTotal() {
+        const snackPrice = parseFloat(snack.value) || 0;
+        const candyPrice = parseFloat(candy.value) || 0;
+        const drinkPrice = parseFloat(drink.value) || 0;
+        const total = snackPrice + candyPrice + drinkPrice;
+        totalBox.textContent = `Total: $${total.toFixed(2)}`;
+      }
+
+      snack.addEventListener("change", updateTotal);
+      candy.addEventListener("change", updateTotal);
+      drink.addEventListener("change", updateTotal);
+
       document.getElementById("form").addEventListener("submit", function (e) {
         e.preventDefault();
-        const messageBox = document.getElementById("message");
-        const submitBtn = document.getElementById("submit-button");
-
-        messageBox.textContent = "Submitting...";
-        messageBox.className = "notification is-info";
-        messageBox.style.display = "block";
-        submitBtn.disabled = true;
+        document.getElementById("message").textContent = "Submitting..";
+        document.getElementById("message").style.display = "block";
+        document.getElementById("submit-button").disabled = true;
 
         var formData = new FormData(this);
         var keyValuePairs = [];
@@ -147,36 +167,33 @@
 
         var formDataString = keyValuePairs.join("&");
 
-        fetch(
-          "https://script.google.com/macros/s/AKfycbyINycN3oO42NHgG52I0LBt80Z0MHdkrWRUJKX93wuHhtJ-MVf5yTsjU5xF6Us1khJr9Q/exec",
-          {
-            redirect: "follow",
-            method: "POST",
-            body: formDataString,
-            headers: {
-              "Content-Type": "text/plain;charset=utf-8",
-            },
-          }
-        )
+        fetch("https://script.google.com/macros/s/AKfycbyINycN3oO42NHgG52I0LBt80Z0MHdkrWRUJKX93wuHhtJ-MVf5yTsjU5xF6Us1khJr9Q/exec", {
+          redirect: "follow",
+          method: "POST",
+          body: formDataString,
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+        })
           .then(function (response) {
-            if (response) {
-              return response;
-            } else {
-              throw new Error("Failed to submit the form.");
-            }
+            if (response) return response;
+            else throw new Error("Failed to submit the form.");
           })
           .then(function () {
-            messageBox.textContent = "Order submitted successfully!";
-            messageBox.className = "notification is-success";
-            submitBtn.disabled = false;
+            document.getElementById("message").textContent = "Order submitted successfully!";
+            document.getElementById("message").style.backgroundColor = "green";
+            document.getElementById("message").style.color = "beige";
+            document.getElementById("submit-button").disabled = false;
             document.getElementById("form").reset();
-            setTimeout(() => (messageBox.style.display = "none"), 3000);
+            updateTotal();
+            setTimeout(function () {
+              document.getElementById("message").style.display = "none";
+            }, 2600);
           })
           .catch(function (error) {
             console.error(error);
-            messageBox.textContent = "An error occurred while submitting the form.";
-            messageBox.className = "notification is-danger";
-            submitBtn.disabled = false;
+            document.getElementById("message").textContent = "An error occurred while submitting the form.";
+            document.getElementById("message").style.display = "block";
           });
       });
     </script>
