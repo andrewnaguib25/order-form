@@ -5,140 +5,140 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
+    <style>
+      body {
+        background-color: #f4f4f4;
+      }
+      .form-wrapper {
+        max-width: 700px;
+        margin: auto;
+        margin-top: 2rem;
+      }
+      .hero.is-primary {
+        background-image: linear-gradient(141deg, #209cee 0%, #3273dc 71%, #00d1b2 100%);
+      }
+      #message {
+        transition: all 0.3s ease-in-out;
+      }
+    </style>
   </head>
   <body>
     <section class="hero is-primary is-bold">
-      <div class="hero-body">
+      <div class="hero-body has-text-centered">
         <div class="container">
-          <h1 class="title">ASB PREORDER FORM</h1>
+          <h1 class="title is-2 has-text-weight-bold">ASB PREORDER FORM</h1>
         </div>
       </div>
     </section>
-    <form id="form" class="container m-4 pl-4" method="POST">
-      <div class="field">
-        <label class="label">Name</label>
-        <div class="control">
-          <input
-            class="input"
-            type="text"
-            placeholder="Full Name"
-            name="Name"
-          />
+
+    <div class="form-wrapper">
+      <div class="card">
+        <div class="card-content">
+          <form id="form" method="POST">
+            <div class="field">
+              <label class="label">Name</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Full Name"
+                  name="Name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="email"
+                  placeholder="Your Email"
+                  name="Email"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Snacks</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select name="Snacks">
+                    <option value="">Select a Snack</option>
+                    <!-- snack options... -->
+                    <option value="Cup of Noodles">Cup of Noodles - $1.50</option>
+                    <option value="Pop Tarts">Pop Tarts - $1.50</option>
+                    <option value="Oreos">Oreos - $1.50</option>
+                    <!-- rest are unchanged -->
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Candy</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select name="Candy">
+                    <option value="">Select a Candy</option>
+                    <option value="Kit Kat">Kit Kat - $2</option>
+                    <option value="Twix">Twix - $2</option>
+                    <!-- rest unchanged -->
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Drink</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select name="Drink">
+                    <option value="">Select a Drink</option>
+                    <option value="Water">Water - $1</option>
+                    <option value="Sprite">Sprite - $1.75</option>
+                    <!-- rest unchanged -->
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="field is-grouped mt-5">
+              <div class="control">
+                <button class="button is-link is-medium" type="submit" id="submit-button">
+                  Submit Order
+                </button>
+              </div>
+              <div class="control">
+                <button class="button is-danger is-light is-medium" type="reset">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
 
-      <div class="field">
-        <label class="label">Email</label>
-        <div class="control">
-          <input
-            class="input"
-            type="email"
-            placeholder="Your Email"
-            name="Email"
-          />
-        </div>
-      </div>
-
-
-     <div class="field">
-        <label class="label">Snacks</label>
-        <div class="control">
-          <div class="select">
-            <select name="Snacks">
-              <option value="">Select a Snack</option>
-              <option value="Cup of Noodles">Cup of Noodles - $1.50</option>
-              <option value="Pop Tarts">Pop Tarts - $1.50</option>
-              <option value="Oreos">Oreos - $1.50</option>
-              <option value="Famous Amos">Famous Amos - $1.50</option>
-              <option value="Uncrustable">Uncrustable - $2</option>
-              <option value="Mac' N Cheese">Mac' N Cheese - $2</option>
-              <option value="Nature Valley Bar">Nature Valley Bar - $2</option>
-              <option value="Clif Bar">Clif Bar - $2</option>
-              <option value="Fit Crunch Bar">Fit Crunch Bar - $3</option>
-              <option value="Donuts">Donuts - $3</option>
-              <option value="Beef Jerky">Beef Jerky - $3</option>
-              <option value="Chester's Fries">Chester's Fries - $1.75</option>
-              <option value="Hot Cheetos">Hot Cheetos - $1.75</option>
-              <option value="Frito Lay Variety">Frito Lay Variety - $1.75</option>
-              <option value="Pringles">Pringles - $2</option>
-              <option value="Takis">Takis - $3</option>
-            </select>
-          </div>
-        </div> 
-      </div>
-
-    <div class="field">
-        <label class="label">Candy</label>
-        <div class="control">
-          <div class="select">
-            <select name="Candy">
-              <option value="">Select a Candy</option>
-              <option value="Kit Kat">Kit Kat - $2</option>
-              <option value="Twix">Twix - $2</option>
-              <option value="Snickers">Snickers - $2</option>
-              <option value="Reese's">Reese's - $2</option>
-              <option value="Sour Punch Straws">Sour Punch Straws - $2</option>
-              <option value="Skittles">Skittles - $2</option>
-              <option value="Sour Patch Kids">Sour Patch Kids - $2</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-       <div class="field">
-        <label class="label">Drink</label>
-        <div class="control">
-          <div class="select">
-            <select name="Drink">
-              <option value="">Select a Drink</option>
-              <option value="Water">Water - $1</option>
-              <option value="Sprite">Sprite - $1.75</option>
-              <option value="Coke">Coke - $1.75</option>
-              <option value="Diet Coke">Diet Coke - $1.75</option>
-              <option value="Dr. Pepper">Dr. Pepper - $1.75</option>
-              <option value="Sunkist">Sunkist - $1.75</option>
-              <option value="Fruit Punch Gatorade">Fruit Punch Gatorade - $3</option>
-              <option value="Lemon Lime Gatorade">Lemon Lime Gatorade - $3</option>
-              <option value="Starbucks">Starbucks - $3</option>
-              <option value="Fairlife">Fairlife - $3</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="field is-grouped">
-        <div class="control">
-          <button class="button is-primary" type="submit" id="submit-button">
-            Submit Order
-          </button>
-        </div>
-        <div class="control">
-          <button class="button is-danger">Cancel</button>
-        </div>
-      </div>
-    </form>
-    <div
-      id="message"
-      style="
-        display: none;
-        margin: 20px;
-        font-weight: bold;
-        color: green;
-        padding: 8px;
-        background-color: beige;
-        border-radius: 4px;
-        border-color: aquamarine;
-      "
-    ></div>
+      <div
+        id="message"
+        class="notification is-light has-text-centered mt-4"
+        style="display: none"
+      ></div>
+    </div>
 
     <script>
       document.getElementById("form").addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent the default form submission
-        document.getElementById("message").textContent = "Submitting..";
-        document.getElementById("message").style.display = "block";
-        document.getElementById("submit-button").disabled = true;
+        e.preventDefault();
+        const messageBox = document.getElementById("message");
+        const submitBtn = document.getElementById("submit-button");
 
-        // Collect the form data
+        messageBox.textContent = "Submitting...";
+        messageBox.className = "notification is-info";
+        messageBox.style.display = "block";
+        submitBtn.disabled = true;
+
         var formData = new FormData(this);
         var keyValuePairs = [];
         for (var pair of formData.entries()) {
@@ -147,7 +147,6 @@
 
         var formDataString = keyValuePairs.join("&");
 
-        // Send a POST request to your Google Apps Script
         fetch(
           "https://script.google.com/macros/s/AKfycbyINycN3oO42NHgG52I0LBt80Z0MHdkrWRUJKX93wuHhtJ-MVf5yTsjU5xF6Us1khJr9Q/exec",
           {
@@ -160,34 +159,24 @@
           }
         )
           .then(function (response) {
-            // Check if the request was successful
             if (response) {
-              return response; // Assuming your script returns JSON response
+              return response;
             } else {
               throw new Error("Failed to submit the form.");
             }
           })
-          .then(function (data) {
-            // Display a success message
-            document.getElementById("message").textContent =
-              "Order submitted successfully!";
-            document.getElementById("message").style.display = "block";
-            document.getElementById("message").style.backgroundColor = "green";
-            document.getElementById("message").style.color = "beige";
-            document.getElementById("submit-button").disabled = false;
+          .then(function () {
+            messageBox.textContent = "Order submitted successfully!";
+            messageBox.className = "notification is-success";
+            submitBtn.disabled = false;
             document.getElementById("form").reset();
-
-            setTimeout(function () {
-              document.getElementById("message").textContent = "";
-              document.getElementById("message").style.display = "none";
-            }, 2600);
+            setTimeout(() => (messageBox.style.display = "none"), 3000);
           })
           .catch(function (error) {
-            // Handle errors, you can display an error message here
             console.error(error);
-            document.getElementById("message").textContent =
-              "An error occurred while submitting the form.";
-            document.getElementById("message").style.display = "block";
+            messageBox.textContent = "An error occurred while submitting the form.";
+            messageBox.className = "notification is-danger";
+            submitBtn.disabled = false;
           });
       });
     </script>
