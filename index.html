@@ -86,8 +86,8 @@
 
         /* Button styles */
         .button {
-            background: #c7b783; /* Gold */
-            color: #152642; /* Navy Blue */
+            background: #ffd700; /* Gold */
+            color: #00274d; /* Navy Blue */
             border: none;
             padding: 12px 20px;
             border-radius: 5px;
@@ -113,10 +113,13 @@
         <h1>Saint John Bosco Snack Store</h1>
         <p>Fill out your details and pick your snacks!</p>
 
-        <!-- Form for Name, ID, and Fork Option -->
+        <!-- Form for Name, Email, ID, and Fork Option -->
         <form id="order-form">
             <label for="full-name">Full Name *</label>
             <input type="text" id="full-name" placeholder="Enter your full name" required>
+
+            <label for="email">Email *</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
             
             <label for="id-number">ID# *</label>
             <input type="text" id="id-number" placeholder="Enter your ID number" required>
@@ -254,10 +257,11 @@
         // Submit cart
         function submitCart() {
             const fullName = document.getElementById('full-name').value.trim();
+            const email = document.getElementById('email').value.trim();
             const idNumber = document.getElementById('id-number').value.trim();
             const forkOption = document.getElementById('fork-option').value;
 
-            if (!fullName || !idNumber) {
+            if (!fullName || !email || !idNumber) {
                 alert('Please fill out all required fields.');
                 return;
             }
@@ -270,14 +274,15 @@
             const orderData = cart.map(item => `${item.name}: $${item.price.toFixed(2)}`).join(', ');
             const total = cart.reduce((sum, item) => sum + item.price, 0);
             const payload = {
-                fullName,
-                idNumber,
-                forkOption,
-                order: orderData,
-                total: total.toFixed(2),
+                Name: fullName,
+                Email: email,
+                StudentID: idNumber,
+                Fork: forkOption,
+                Snacks: orderData,
+                Total: total.toFixed(2),
             };
 
-            fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwiiAOULUUzdngT7rwll3pAtc_fgQ6Q7W6MeFT-yxMgzH_iCxuisPAY6gZMzF4XMiq2/exec', {
                 method: 'POST',
                 body: JSON.stringify(payload),
                 headers: {
