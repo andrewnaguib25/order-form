@@ -1,228 +1,133 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-    />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snack Store</title>
     <style>
-      .container {
-        max-width: 800px;
-      }
-      .price {
-        font-weight: bold;
-        color: green;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .snack {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .cart {
+            margin-top: 20px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
     </style>
-  </head>
-  <body>
-    <section class="hero is-primary is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title">ASB PREORDER FORM</h1>
-        </div>
-      </div>
-    </section>
-    <form id="form" class="container m-4 pl-4" method="POST">
-      <div class="field">
-        <label class="label">Name</label>
-        <div class="control">
-          <input
-            class="input"
-            type="text"
-            placeholder="Full Name"
-            name="Name"
-          />
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Email</label>
-        <div class="control">
-          <input
-            class="input"
-            type="email"
-            placeholder="Your Email"
-            name="Email"
-          />
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Student ID</label>
-        <div class="control">
-          <input
-            class="input"
-            type="Student ID"
-            placeholder="Your ID"
-            name="Student ID"
-          />
-        </div>
-      </div>
-
-
-      <div class="field">
-        <label class="label">Snacks</label>
-        <div class="control">
-          <div class="select">
-            <select id="snack" name="Snacks">
-              <option value="">Select a Snack</option>
-              <option value="Cup of Noodles">Cup of Noodles - $1.50</option>
-              <option value="Pop Tarts">Pop Tarts - $1.50</option>
-              <option value="Oreos">Oreos - $1.50</option>
-              <option value="Famous Amos">Famous Amos - $1.50</option>
-              <option value="Uncrustable">Uncrustable - $2</option>
-              <option value="Mac' N Cheese">Mac' N Cheese - $2</option>
-              <option value="Nature Valley Bar">Nature Valley Bar - $2</option>
-              <option value="Clif Bar">Clif Bar - $2</option>
-              <option value="Fit Crunch Bar">Fit Crunch Bar - $3</option>
-              <option value="Donuts">Donuts - $3</option>
-              <option value="Beef Jerky">Beef Jerky - $3</option>
-              <option value="Chester's Fries">Chester's Fries - $1.75</option>
-              <option value="Hot Cheetos">Hot Cheetos - $1.75</option>
-              <option value="Frito Lay Variety">Frito Lay Variety - $1.75</option>
-              <option value="Pringles">Pringles - $2</option>
-              <option value="Takis">Takis - $3</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Candy</label>
-        <div class="control">
-          <div class="select">
-            <select id="candy" name="Candy">
-              <option value="">Select a Candy</option>
-              <option value="Kit Kat">Kit Kat - $2</option>
-              <option value="Twix">Twix - $2</option>
-              <option value="Snickers">Snickers - $2</option>
-              <option value="Reese's">Reese's - $2</option>
-              <option value="Sour Punch Straws">Sour Punch Straws - $2</option>
-              <option value="Skittles">Skittles - $2</option>
-              <option value="Sour Patch Kids">Sour Patch Kids - $2</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Drink</label>
-        <div class="control">
-          <div class="select">
-            <select id="drink" name="Drink">
-              <option value="">Select a Drink</option>
-              <option value="Water">Water - $1</option>
-              <option value="Sprite">Sprite - $1.75</option>
-              <option value="Coke">Coke - $1.75</option>
-              <option value="Diet Coke">Diet Coke - $1.75</option>
-              <option value="Dr. Pepper">Dr. Pepper - $1.75</option>
-              <option value="Sunkist">Sunkist - $1.75</option>
-              <option value="Fruit Punch Gatorade">Fruit Punch Gatorade - $3</option>
-              <option value="Lemon Lime Gatorade">Lemon Lime Gatorade - $3</option>
-              <option value="Starbucks">Starbucks - $3</option>
-              <option value="Fairlife">Fairlife - $3</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Total: <span id="total" class="price">$0.00</span></label>
-      </div>
-
-      <div class="field is-grouped">
-        <div class="control">
-          <button class="button is-primary" type="submit" id="submit-button">
-            Submit Order
-          </button>
-        </div>
-        <div class="control">
-          <button class="button is-danger">Cancel</button>
-        </div>
-      </div>
-    </form>
-
-    <div
-      id="message"
-      style="display: none; margin: 20px; font-weight: bold; color: green; padding: 8px; background-color: beige; border-radius: 4px; border-color: aquamarine;"
-    ></div>
+</head>
+<body>
+    <h1>Welcome to the Snack Store</h1>
+    <p>Select snacks to add to your cart:</p>
+    <div id="snack-list">
+        <!-- Snacks will be dynamically loaded here -->
+    </div>
+    <h2>Cart</h2>
+    <div id="cart">
+        <p>Your cart is empty.</p>
+    </div>
+    <button class="button" onclick="submitCart()">Submit Order</button>
 
     <script>
-      // Function to update total price
-      function updateTotal() {
-        const snack = document.getElementById("snack");
-        const candy = document.getElementById("candy");
-        const drink = document.getElementById("drink");
+        // Template snacks
+        const snacks = [
+            { id: 1, name: 'Chips', price: 1.5 },
+            { id: 2, name: 'Chocolate Bar', price: 2.0 },
+            { id: 3, name: 'Soda', price: 1.0 },
+            { id: 4, name: 'Cookies', price: 1.75 },
+        ];
 
-        const snackPrice = snack.selectedOptions[0]?.value.split(",")[1] || 0;
-        const candyPrice = candy.selectedOptions[0]?.value.split(",")[1] || 0;
-        const drinkPrice = drink.selectedOptions[0]?.value.split(",")[1] || 0;
+        // Cart array
+        let cart = [];
 
-        const total = (parseFloat(snackPrice) + parseFloat(candyPrice) + parseFloat(drinkPrice)).toFixed(2);
+        // Load snacks into the snack list
+        const snackList = document.getElementById('snack-list');
+        snacks.forEach(snack => {
+            const snackDiv = document.createElement('div');
+            snackDiv.className = 'snack';
+            snackDiv.innerHTML = `
+                <span>${snack.name} - $${snack.price.toFixed(2)}</span>
+                <button class="button" onclick="addToCart(${snack.id})">Add to Cart</button>
+            `;
+            snackList.appendChild(snackDiv);
+        });
 
-        document.getElementById("total").textContent = `$${total}`;
-      }
-
-      // Event listeners for dropdown changes
-      document.getElementById("snack").addEventListener("change", updateTotal);
-      document.getElementById("candy").addEventListener("change", updateTotal);
-      document.getElementById("drink").addEventListener("change", updateTotal);
-
-      document.getElementById("form").addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent the default form submission
-        document.getElementById("message").textContent = "Submitting..";
-        document.getElementById("message").style.display = "block";
-        document.getElementById("submit-button").disabled = true;
-
-        // Collect the form data
-        var formData = new FormData(this);
-        var keyValuePairs = [];
-        for (var pair of formData.entries()) {
-          keyValuePairs.push(pair[0] + "=" + pair[1]);
+        // Add snack to the cart
+        function addToCart(snackId) {
+            const snack = snacks.find(s => s.id === snackId);
+            cart.push(snack);
+            updateCart();
         }
 
-        var formDataString = keyValuePairs.join("&");
-
-        // Send a POST request to your Google Apps Script
-        fetch(
-          "https://script.google.com/macros/s/AKfycbyINycN3oO42NHgG52I0LBt80Z0MHdkrWRUJKX93wuHhtJ-MVf5yTsjU5xF6Us1khJr9Q/exec",
-          {
-            redirect: "follow",
-            method: "POST",
-            body: formDataString,
-            headers: {
-              "Content-Type": "text/plain;charset=utf-8",
-            },
-          }
-        )
-          .then(function (response) {
-            // Check if the request was successful
-            if (response) {
-              return response;
-            } else {
-              throw new Error("Failed to submit the form.");
+        // Update the cart display
+        function updateCart() {
+            const cartDiv = document.getElementById('cart');
+            cartDiv.innerHTML = '';
+            if (cart.length === 0) {
+                cartDiv.innerHTML = '<p>Your cart is empty.</p>';
+                return;
             }
-          })
-          .then(function (data) {
-            document.getElementById("message").textContent = "Order submitted successfully!";
-            document.getElementById("message").style.display = "block";
-            document.getElementById("message").style.backgroundColor = "green";
-            document.getElementById("message").style.color = "beige";
-            document.getElementById("submit-button").disabled = false;
-            document.getElementById("form").reset();
+            cart.forEach((item, index) => {
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.className = 'cart-item';
+                cartItemDiv.innerHTML = `
+                    <span>${item.name} - $${item.price.toFixed(2)}</span>
+                    <button class="button" onclick="removeFromCart(${index})">Remove</button>
+                `;
+                cartDiv.appendChild(cartItemDiv);
+            });
+        }
 
-            setTimeout(function () {
-              document.getElementById("message").textContent = "";
-              document.getElementById("message").style.display = "none";
-            }, 2600);
-          })
-          .catch(function (error) {
-            console.error(error);
-            document.getElementById("message").textContent = "An error occurred while submitting the form.";
-            document.getElementById("message").style.display = "block";
-          });
-      });
+        // Remove item from the cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        // Submit the cart
+        function submitCart() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            const orderData = cart.map(item => `${item.name}: $${item.price.toFixed(2)}`).join(', ');
+            const payload = {
+                order: orderData,
+                total: cart.reduce((sum, item) => sum + item.price, 0).toFixed(2),
+            };
+            fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                cart = [];
+                updateCart();
+            })
+            .catch(error => console.error('Error:', error));
+        }
     </script>
-  </body>
+</body>
 </html>
