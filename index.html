@@ -4,300 +4,205 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saint John Bosco Snack Store</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
     <style>
-        /* General styles */
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
             background: #00274d; /* Navy Blue */
             color: white;
-            text-align: center;
         }
 
-        h1, h2 {
+        .hero {
+            background: #00274d; /* Navy */
+            color: white;
+        }
+
+        .title {
             color: #ffd700; /* Gold */
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
         }
 
-        p, label {
-            font-size: 1.2em;
+        .price {
+            font-weight: bold;
+            color: #ffd700; /* Gold */
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            max-width: 800px;
         }
 
-        /* Form styles */
-        form {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: none;
-            font-size: 1em;
-        }
-
-        /* Grid layout for snacks, candy, and drinks */
-        .section {
-            margin-top: 30px;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .product {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .product:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Cart styles */
-        .cart {
-            margin-top: 30px;
-        }
-
-        /* Button styles */
-        .button {
-            background: #ffd700; /* Gold */
-            color: #00274d; /* Navy Blue */
-            border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .button:hover {
-            background: #ffc107; /* Brighter Gold */
-            transform: scale(1.1);
-        }
-
-        footer {
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: white;
+        .message {
+            margin: 20px;
+            font-weight: bold;
+            color: green;
+            padding: 8px;
+            background-color: beige;
+            border-radius: 4px;
+            border-color: aquamarine;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Saint John Bosco Snack Store</h1>
-        <p>Fill out your details and pick your snacks!</p>
+    <section class="hero is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">Saint John Bosco Snack Store</h1>
+                <p>Fill out your details and pick your snacks!</p>
+            </div>
+        </div>
+    </section>
 
-        <!-- Form for Name, Email, ID, and Fork Option -->
-        <form id="order-form">
-            <label for="full-name">Full Name *</label>
-            <input type="text" id="full-name" placeholder="Enter your full name" required>
-
-            <label for="email">Email *</label>
-            <input type="email" id="email" placeholder="Enter your email" required>
-            
-            <label for="id-number">ID# *</label>
-            <input type="text" id="id-number" placeholder="Enter your ID number" required>
-            
-            <label for="fork-option">Fork *</label>
-            <select id="fork-option" required>
-                <option value="Yes ($0.25)">Yes ($0.25)</option>
-                <option value="No">No</option>
-            </select>
-        </form>
-
-        <!-- Snacks Section -->
-        <div class="section" id="snacks-section">
-            <h2>Snacks</h2>
-            <div class="product-grid" id="snack-list">
-                <!-- Snacks will be dynamically loaded here -->
+    <form id="form" class="container m-4" method="POST">
+        <div class="field">
+            <label class="label">Full Name *</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="Enter your full name" name="Name" required />
             </div>
         </div>
 
-        <!-- Candy Section -->
-        <div class="section" id="candy-section">
-            <h2>Candy</h2>
-            <div class="product-grid" id="candy-list">
-                <!-- Candy will be dynamically loaded here -->
+        <div class="field">
+            <label class="label">Email *</label>
+            <div class="control">
+                <input class="input" type="email" placeholder="Enter your email" name="Email" required />
             </div>
         </div>
 
-        <!-- Drinks Section -->
-        <div class="section" id="drinks-section">
-            <h2>Drinks</h2>
-            <div class="product-grid" id="drink-list">
-                <!-- Drinks will be dynamically loaded here -->
+        <div class="field">
+            <label class="label">Student ID *</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="Enter your ID number" name="Student ID" required />
             </div>
         </div>
 
-        <!-- Cart -->
-        <h2>Your Cart</h2>
-        <div id="cart">
-            <p>Your cart is empty.</p>
+        <div class="field">
+            <label class="label">Snacks</label>
+            <div class="control">
+                <div class="select">
+                    <select id="snack" name="Snacks">
+                        <option value="">Select a Snack</option>
+                        <option value="Cup of Noodles">Cup of Noodles - $1.50</option>
+                        <option value="Pop Tarts">Pop Tarts - $1.50</option>
+                        <option value="Oreos">Oreos - $1.50</option>
+                        <option value="Famous Amos">Famous Amos - $1.50</option>
+                        <option value="Uncrustable">Uncrustable - $2</option>
+                        <option value="Mac' N Cheese">Mac' N Cheese - $2</option>
+                        <option value="Nature Valley Bar">Nature Valley Bar - $2</option>
+                        <option value="Clif Bar">Clif Bar - $2</option>
+                        <option value="Donuts">Donuts - $3</option>
+                        <option value="Beef Jerky">Beef Jerky - $3</option>
+                    </select>
+                </div>
+            </div>
         </div>
-        <h3>Total: $<span id="cart-total">0.00</span></h3>
-        <button class="button" onclick="submitCart()">Submit Order</button>
-    </div>
 
-    <footer>
-        <p>Saint John Bosco Snack Store © 2025. Designed with <span style="color: red;">♥</span> for students.</p>
-    </footer>
+        <div class="field">
+            <label class="label">Candy</label>
+            <div class="control">
+                <div class="select">
+                    <select id="candy" name="Candy">
+                        <option value="">Select a Candy</option>
+                        <option value="Kit Kat">Kit Kat - $2</option>
+                        <option value="Twix">Twix - $2</option>
+                        <option value="Snickers">Snickers - $2</option>
+                        <option value="Reese's">Reese's - $2</option>
+                        <option value="Sour Punch Straws">Sour Punch Straws - $2</option>
+                        <option value="Skittles">Skittles - $2</option>
+                        <option value="Sour Patch Kids">Sour Patch Kids - $2</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Drink</label>
+            <div class="control">
+                <div class="select">
+                    <select id="drink" name="Drink">
+                        <option value="">Select a Drink</option>
+                        <option value="Water">Water - $1</option>
+                        <option value="Sprite">Sprite - $1.75</option>
+                        <option value="Coke">Coke - $1.75</option>
+                        <option value="Diet Coke">Diet Coke - $1.75</option>
+                        <option value="Dr. Pepper">Dr. Pepper - $1.75</option>
+                        <option value="Sunkist">Sunkist - $1.75</option>
+                        <option value="Fruit Punch Gatorade">Fruit Punch Gatorade - $3</option>
+                        <option value="Lemon Lime Gatorade">Lemon Lime Gatorade - $3</option>
+                        <option value="Starbucks">Starbucks - $3</option>
+                        <option value="Fairlife">Fairlife - $3</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Total: <span id="total" class="price">$0.00</span></label>
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-primary" type="submit" id="submit-button">Submit Order</button>
+            </div>
+            <div class="control">
+                <button class="button is-danger" type="reset">Cancel</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="message" class="message is-hidden"></div>
 
     <script>
-        // Products
-        const snacks = [
-            { id: 1, name: 'Cup of Noodles', price: 1.5, img: 'https://via.placeholder.com/80' },
-            { id: 2, name: 'Pop Tarts', price: 1.5, img: 'https://via.placeholder.com/80' },
-            { id: 3, name: 'Oreos', price: 1.5, img: 'https://via.placeholder.com/80' },
-            { id: 4, name: 'Famous Amos', price: 1.5, img: 'https://via.placeholder.com/80' },
-            { id: 5, name: 'Uncrustable', price: 2, img: 'https://via.placeholder.com/80' },
-        ];
+        function updateTotal() {
+            const snack = document.getElementById("snack");
+            const candy = document.getElementById("candy");
+            const drink = document.getElementById("drink");
 
-        const candy = [
-            { id: 6, name: 'Kit Kat', price: 2, img: 'https://via.placeholder.com/80' },
-            { id: 7, name: 'Twix', price: 2, img: 'https://via.placeholder.com/80' },
-            { id: 8, name: 'Snickers', price: 2, img: 'https://via.placeholder.com/80' },
-            { id: 9, name: 'Reese\'s', price: 2, img: 'https://via.placeholder.com/80' },
-            { id: 10, name: 'Sour Punch Straws', price: 2, img: 'https://via.placeholder.com/80' },
-        ];
+            const snackPrice = parseFloat(snack.selectedOptions[0]?.text.split("$")[1]) || 0;
+            const candyPrice = parseFloat(candy.selectedOptions[0]?.text.split("$")[1]) || 0;
+            const drinkPrice = parseFloat(drink.selectedOptions[0]?.text.split("$")[1]) || 0;
 
-        const drinks = [
-            { id: 11, name: 'Water', price: 1, img: 'https://via.placeholder.com/80' },
-            { id: 12, name: 'Sprite', price: 1.75, img: 'https://via.placeholder.com/80' },
-            { id: 13, name: 'Coke', price: 1.75, img: 'https://via.placeholder.com/80' },
-            { id: 14, name: 'Diet Coke', price: 1.75, img: 'https://via.placeholder.com/80' },
-            { id: 15, name: 'Dr. Pepper', price: 1.75, img: 'https://via.placeholder.com/80' },
-        ];
-
-        // Cart Array
-        let cart = [];
-
-        // Helper function to load products
-        function loadProducts(products, listId) {
-            const list = document.getElementById(listId);
-            products.forEach(product => {
-                const productDiv = document.createElement('div');
-                productDiv.className = 'product';
-                productDiv.innerHTML = `
-                    <img src="${product.img}" alt="${product.name}">
-                    <span>${product.name} - $${product.price.toFixed(2)}</span>
-                    <button class="button" onclick="addToCart(${product.id}, '${listId}')">Add to Cart</button>
-                `;
-                list.appendChild(productDiv);
-            });
+            const total = (snackPrice + candyPrice + drinkPrice).toFixed(2);
+            document.getElementById("total").textContent = `$${total}`;
         }
 
-        // Load snacks, candy, and drinks
-        loadProducts(snacks, 'snack-list');
-        loadProducts(candy, 'candy-list');
-        loadProducts(drinks, 'drink-list');
+        document.getElementById("snack").addEventListener("change", updateTotal);
+        document.getElementById("candy").addEventListener("change", updateTotal);
+        document.getElementById("drink").addEventListener("change", updateTotal);
 
-        // Add to cart
-        function addToCart(productId, category) {
-            const product = [...snacks, ...candy, ...drinks].find(p => p.id === productId);
-            cart.push(product);
-            updateCart();
-        }
+        document.getElementById("form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const message = document.getElementById("message");
+            const submitButton = document.getElementById("submit-button");
+            message.textContent = "Submitting...";
+            message.style.display = "block";
+            submitButton.disabled = true;
 
-        // Update cart display
-        function updateCart() {
-            const cartDiv = document.getElementById('cart');
-            const cartTotal = document.getElementById('cart-total');
-            cartDiv.innerHTML = '';
-            if (cart.length === 0) {
-                cartDiv.innerHTML = '<p>Your cart is empty.</p>';
-                cartTotal.innerText = '0.00';
-                return;
-            }
-            let total = 0;
-            cart.forEach((item, index) => {
-                total += item.price;
-                const cartItemDiv = document.createElement('div');
-                cartItemDiv.className = 'cart-item';
-                cartItemDiv.innerHTML = `
-                    <span>${item.name} - $${item.price.toFixed(2)}</span>
-                    <button class="button" onclick="removeFromCart(${index})">Remove</button>
-                `;
-                cartDiv.appendChild(cartItemDiv);
-            });
-            cartTotal.innerText = total.toFixed(2);
-        }
+            const formData = new FormData(this);
+            const formDataString = new URLSearchParams(formData).toString();
 
-        // Remove item from cart
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCart();
-        }
-
-        // Submit cart
-        function submitCart() {
-            const fullName = document.getElementById('full-name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const idNumber = document.getElementById('id-number').value.trim();
-            const forkOption = document.getElementById('fork-option').value;
-
-            if (!fullName || !email || !idNumber) {
-                alert('Please fill out all required fields.');
-                return;
-            }
-
-            if (cart.length === 0) {
-                alert('Your cart is empty!');
-                return;
-            }
-
-            const orderData = cart.map(item => `${item.name}: $${item.price.toFixed(2)}`).join(', ');
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            const payload = {
-                Name: fullName,
-                Email: email,
-                StudentID: idNumber,
-                Fork: forkOption,
-                Snacks: orderData,
-                Total: total.toFixed(2),
-            };
-
-            fetch('https://script.google.com/macros/s/AKfycbwiiAOULUUzdngT7rwll3pAtc_fgQ6Q7W6MeFT-yxMgzH_iCxuisPAY6gZMzF4XMiq2/exec', {
-                method: 'POST',
-                body: JSON.stringify(payload),
+            fetch("https://script.google.com/macros/s/AKfycbxkWz45FAha6OpNRRS4GKqe7tctGHaT49gENZdq9DmlpVDAH773riFT_0Xp9Ov7Z3Bq/exec", {
+                method: "POST",
+                body: formDataString,
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/x-www-form-urlencoded",
                 },
             })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                cart = [];
-                updateCart();
-                document.getElementById('order-form').reset();
-            })
-            .catch(error => console.error('Error:', error));
-        }
+                .then((response) => {
+                    if (!response.ok) throw new Error("Failed to submit the form.");
+                    return response.text();
+                })
+                .then(() => {
+                    message.textContent = "Order submitted successfully!";
+                    message.style.backgroundColor = "green";
+                    submitButton.disabled = false;
+                    this.reset();
+                    setTimeout(() => (message.style.display = "none"), 3000);
+                })
+                .catch((error) => {
+                    console.error(error);
+                    message.textContent = "An error occurred while submitting the form.";
+                    message.style.backgroundColor = "red";
+                    submitButton.disabled = false;
+                });
+        });
     </script>
 </body>
 </html>
