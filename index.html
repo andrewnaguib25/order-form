@@ -27,7 +27,36 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .product {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .product:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
         }
 
         .message {
@@ -73,63 +102,27 @@
             </div>
         </div>
 
+        <!-- Snacks Section -->
         <div class="field">
             <label class="label">Snacks</label>
-            <div class="control">
-                <div class="select">
-                    <select id="snack" name="Snacks">
-                        <option value="">Select a Snack</option>
-                        <option value="Cup of Noodles">Cup of Noodles - $1.50</option>
-                        <option value="Pop Tarts">Pop Tarts - $1.50</option>
-                        <option value="Oreos">Oreos - $1.50</option>
-                        <option value="Famous Amos">Famous Amos - $1.50</option>
-                        <option value="Uncrustable">Uncrustable - $2</option>
-                        <option value="Mac' N Cheese">Mac' N Cheese - $2</option>
-                        <option value="Nature Valley Bar">Nature Valley Bar - $2</option>
-                        <option value="Clif Bar">Clif Bar - $2</option>
-                        <option value="Donuts">Donuts - $3</option>
-                        <option value="Beef Jerky">Beef Jerky - $3</option>
-                    </select>
-                </div>
+            <div class="product-grid" id="snack-list">
+                <!-- Snacks will be dynamically loaded here -->
             </div>
         </div>
 
+        <!-- Candy Section -->
         <div class="field">
             <label class="label">Candy</label>
-            <div class="control">
-                <div class="select">
-                    <select id="candy" name="Candy">
-                        <option value="">Select a Candy</option>
-                        <option value="Kit Kat">Kit Kat - $2</option>
-                        <option value="Twix">Twix - $2</option>
-                        <option value="Snickers">Snickers - $2</option>
-                        <option value="Reese's">Reese's - $2</option>
-                        <option value="Sour Punch Straws">Sour Punch Straws - $2</option>
-                        <option value="Skittles">Skittles - $2</option>
-                        <option value="Sour Patch Kids">Sour Patch Kids - $2</option>
-                    </select>
-                </div>
+            <div class="product-grid" id="candy-list">
+                <!-- Candy will be dynamically loaded here -->
             </div>
         </div>
 
+        <!-- Drinks Section -->
         <div class="field">
-            <label class="label">Drink</label>
-            <div class="control">
-                <div class="select">
-                    <select id="drink" name="Drink">
-                        <option value="">Select a Drink</option>
-                        <option value="Water">Water - $1</option>
-                        <option value="Sprite">Sprite - $1.75</option>
-                        <option value="Coke">Coke - $1.75</option>
-                        <option value="Diet Coke">Diet Coke - $1.75</option>
-                        <option value="Dr. Pepper">Dr. Pepper - $1.75</option>
-                        <option value="Sunkist">Sunkist - $1.75</option>
-                        <option value="Fruit Punch Gatorade">Fruit Punch Gatorade - $3</option>
-                        <option value="Lemon Lime Gatorade">Lemon Lime Gatorade - $3</option>
-                        <option value="Starbucks">Starbucks - $3</option>
-                        <option value="Fairlife">Fairlife - $3</option>
-                    </select>
-                </div>
+            <label class="label">Drinks</label>
+            <div class="product-grid" id="drink-list">
+                <!-- Drinks will be dynamically loaded here -->
             </div>
         </div>
 
@@ -150,23 +143,66 @@
     <div id="message" class="message is-hidden"></div>
 
     <script>
-        function updateTotal() {
-            const snack = document.getElementById("snack");
-            const candy = document.getElementById("candy");
-            const drink = document.getElementById("drink");
+        // Products Data
+        const snacks = [
+            { id: 1, name: 'Cup of Noodles', price: 1.5, img: 'https://via.placeholder.com/80' },
+            { id: 2, name: 'Pop Tarts', price: 1.5, img: 'https://via.placeholder.com/80' },
+            { id: 3, name: 'Oreos', price: 1.5, img: 'https://via.placeholder.com/80' },
+            { id: 4, name: 'Famous Amos', price: 1.5, img: 'https://via.placeholder.com/80' },
+            { id: 5, name: 'Uncrustable', price: 2, img: 'https://via.placeholder.com/80' },
+        ];
 
-            const snackPrice = parseFloat(snack.selectedOptions[0]?.text.split("$")[1]) || 0;
-            const candyPrice = parseFloat(candy.selectedOptions[0]?.text.split("$")[1]) || 0;
-            const drinkPrice = parseFloat(drink.selectedOptions[0]?.text.split("$")[1]) || 0;
+        const candy = [
+            { id: 6, name: 'Kit Kat', price: 2, img: 'https://via.placeholder.com/80' },
+            { id: 7, name: 'Twix', price: 2, img: 'https://via.placeholder.com/80' },
+            { id: 8, name: 'Snickers', price: 2, img: 'https://via.placeholder.com/80' },
+            { id: 9, name: 'Reese\'s', price: 2, img: 'https://via.placeholder.com/80' },
+            { id: 10, name: 'Sour Punch Straws', price: 2, img: 'https://via.placeholder.com/80' },
+        ];
 
-            const total = (snackPrice + candyPrice + drinkPrice).toFixed(2);
-            document.getElementById("total").textContent = `$${total}`;
+        const drinks = [
+            { id: 11, name: 'Water', price: 1, img: 'https://via.placeholder.com/80' },
+            { id: 12, name: 'Sprite', price: 1.75, img: 'https://via.placeholder.com/80' },
+            { id: 13, name: 'Coke', price: 1.75, img: 'https://via.placeholder.com/80' },
+            { id: 14, name: 'Diet Coke', price: 1.75, img: 'https://via.placeholder.com/80' },
+            { id: 15, name: 'Dr. Pepper', price: 1.75, img: 'https://via.placeholder.com/80' },
+        ];
+
+        let cart = [];
+
+        // Load products into the respective sections
+        function loadProducts(products, listId) {
+            const list = document.getElementById(listId);
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                productDiv.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <span>${product.name} - $${product.price.toFixed(2)}</span>
+                    <button class="button is-small is-primary" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+                `;
+                list.appendChild(productDiv);
+            });
         }
 
-        document.getElementById("snack").addEventListener("change", updateTotal);
-        document.getElementById("candy").addEventListener("change", updateTotal);
-        document.getElementById("drink").addEventListener("change", updateTotal);
+        // Add product to the cart
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateTotal();
+        }
 
+        // Update total price
+        function updateTotal() {
+            const total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+            document.getElementById('total').textContent = `$${total}`;
+        }
+
+        // Load all products
+        loadProducts(snacks, 'snack-list');
+        loadProducts(candy, 'candy-list');
+        loadProducts(drinks, 'drink-list');
+
+        // Form submission
         document.getElementById("form").addEventListener("submit", function (e) {
             e.preventDefault();
             const message = document.getElementById("message");
@@ -185,18 +221,17 @@
                     "Content-Type": "application/x-www-form-urlencoded",
                 },
             })
-                .then((response) => {
-                    if (!response.ok) throw new Error("Failed to submit the form.");
-                    return response.text();
-                })
+                .then(response => response.text())
                 .then(() => {
                     message.textContent = "Order submitted successfully!";
                     message.style.backgroundColor = "green";
                     submitButton.disabled = false;
                     this.reset();
-                    setTimeout(() => (message.style.display = "none"), 3000);
+                    cart = [];
+                    updateTotal();
+                    setTimeout(() => message.style.display = "none", 3000);
                 })
-                .catch((error) => {
+                .catch(error => {
                     console.error(error);
                     message.textContent = "An error occurred while submitting the form.";
                     message.style.backgroundColor = "red";
