@@ -3,241 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saint John Bosco Snack Store</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    <title>Snack Store Preorder</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style>
         body {
-            background: #00274d; /* Navy Blue */
-            color: white;
-        }
-
-        .hero {
-            background: #00274d; /* Navy */
-            color: white;
-        }
-
-        .title {
-            color: #ffd700; /* Gold */
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-        }
-
-        .price {
-            font-weight: bold;
-            color: #ffd700; /* Gold */
+            background: #f8f9fa;
+            color: #343a40;
         }
 
         .container {
-            max-width: 1200px;
+            margin-top: 20px;
         }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin: 20px 0;
+            margin-top: 20px;
         }
 
         .product {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px;
+            background: #ffffff;
+            border-radius: 5px;
+            padding: 15px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .product img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 5px;
+            max-width: 80px;
+            height: auto;
             margin-bottom: 10px;
         }
 
-        .product:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        .product button {
+            margin-top: 10px;
         }
 
-        .message {
-            margin: 20px;
-            font-weight: bold;
-            color: green;
-            padding: 8px;
-            background-color: beige;
-            border-radius: 4px;
-            border-color: aquamarine;
+        .cart-summary {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <section class="hero is-bold">
+    <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">Saint John Bosco Snack Store</h1>
-                <p>Fill out your details and pick your snacks!</p>
+                <h1 class="title">Snack Store Preorder</h1>
+                <p>Order your snacks before lunch!</p>
             </div>
         </div>
     </section>
 
-    <form id="form" class="container m-4" method="POST">
-        <div class="field">
-            <label class="label">Full Name *</label>
-            <div class="control">
-                <input class="input" type="text" placeholder="Enter your full name" name="Name" required />
-            </div>
+    <div class="container">
+        <h2 class="subtitle">Available Snacks</h2>
+        <div class="product-grid" id="product-list">
+            <!-- Snacks will be dynamically added here -->
         </div>
 
-        <div class="field">
-            <label class="label">Email *</label>
-            <div class="control">
-                <input class="input" type="email" placeholder="Enter your email" name="Email" required />
-            </div>
+        <h2 class="subtitle">Your Cart</h2>
+        <div class="cart-summary" id="cart">
+            <p>Your cart is empty.</p>
         </div>
 
-        <div class="field">
-            <label class="label">Student ID *</label>
-            <div class="control">
-                <input class="input" type="text" placeholder="Enter your ID number" name="Student ID" required />
+        <h2 class="subtitle">Order Details</h2>
+        <form id="order-form">
+            <div class="field">
+                <label class="label">Name</label>
+                <input class="input" type="text" id="name" placeholder="Enter your name" required>
             </div>
-        </div>
 
-        <!-- Snacks Section -->
-        <div class="field">
-            <label class="label">Snacks</label>
-            <div class="product-grid" id="snack-list">
-                <!-- Snacks will be dynamically loaded here -->
+            <div class="field">
+                <label class="label">Email</label>
+                <input class="input" type="email" id="email" placeholder="Enter your email" required>
             </div>
-        </div>
 
-        <!-- Candy Section -->
-        <div class="field">
-            <label class="label">Candy</label>
-            <div class="product-grid" id="candy-list">
-                <!-- Candy will be dynamically loaded here -->
+            <div class="field">
+                <label class="label">Student ID</label>
+                <input class="input" type="text" id="student-id" placeholder="Enter your student ID" required>
             </div>
-        </div>
 
-        <!-- Drinks Section -->
-        <div class="field">
-            <label class="label">Drinks</label>
-            <div class="product-grid" id="drink-list">
-                <!-- Drinks will be dynamically loaded here -->
-            </div>
-        </div>
-
-        <div class="field">
-            <label class="label">Total: <span id="total" class="price">$0.00</span></label>
-        </div>
-
-        <div class="field is-grouped">
-            <div class="control">
-                <button class="button is-primary" type="submit" id="submit-button">Submit Order</button>
-            </div>
-            <div class="control">
-                <button class="button is-danger" type="reset">Cancel</button>
-            </div>
-        </div>
-    </form>
-
-    <div id="message" class="message is-hidden"></div>
+            <button class="button is-primary" type="submit">Submit Order</button>
+        </form>
+    </div>
 
     <script>
-        // Products Data
-        const snacks = [
+        const products = [
             { id: 1, name: 'Cup of Noodles', price: 1.5, img: 'https://via.placeholder.com/80' },
             { id: 2, name: 'Pop Tarts', price: 1.5, img: 'https://via.placeholder.com/80' },
             { id: 3, name: 'Oreos', price: 1.5, img: 'https://via.placeholder.com/80' },
             { id: 4, name: 'Famous Amos', price: 1.5, img: 'https://via.placeholder.com/80' },
-            { id: 5, name: 'Uncrustable', price: 2, img: 'https://via.placeholder.com/80' },
+            { id: 5, name: 'Uncrustable', price: 2, img: 'https://via.placeholder.com/80' }
         ];
 
-        const candy = [
-            { id: 6, name: 'Kit Kat', price: 2, img: 'https://via.placeholder.com/80' },
-            { id: 7, name: 'Twix', price: 2, img: 'https://via.placeholder.com/80' },
-            { id: 8, name: 'Snickers', price: 2, img: 'https://via.placeholder.com/80' },
-            { id: 9, name: 'Reese\'s', price: 2, img: 'https://via.placeholder.com/80' },
-            { id: 10, name: 'Sour Punch Straws', price: 2, img: 'https://via.placeholder.com/80' },
-        ];
+        const cart = [];
 
-        const drinks = [
-            { id: 11, name: 'Water', price: 1, img: 'https://via.placeholder.com/80' },
-            { id: 12, name: 'Sprite', price: 1.75, img: 'https://via.placeholder.com/80' },
-            { id: 13, name: 'Coke', price: 1.75, img: 'https://via.placeholder.com/80' },
-            { id: 14, name: 'Diet Coke', price: 1.75, img: 'https://via.placeholder.com/80' },
-            { id: 15, name: 'Dr. Pepper', price: 1.75, img: 'https://via.placeholder.com/80' },
-        ];
-
-        let cart = [];
-
-        // Load products into the respective sections
-        function loadProducts(products, listId) {
-            const list = document.getElementById(listId);
+        function renderProducts() {
+            const productList = document.getElementById('product-list');
             products.forEach(product => {
                 const productDiv = document.createElement('div');
                 productDiv.className = 'product';
                 productDiv.innerHTML = `
                     <img src="${product.img}" alt="${product.name}">
-                    <span>${product.name} - $${product.price.toFixed(2)}</span>
-                    <button class="button is-small is-primary" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+                    <h3>${product.name}</h3>
+                    <p>$${product.price.toFixed(2)}</p>
+                    <button class="button is-primary" onclick="addToCart(${product.id})">Add to Cart</button>
                 `;
-                list.appendChild(productDiv);
+                productList.appendChild(productDiv);
             });
         }
 
-        // Add product to the cart
-        function addToCart(name, price) {
-            cart.push({ name, price });
-            updateTotal();
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cart.push(product);
+            renderCart();
         }
 
-        // Update total price
-        function updateTotal() {
-            const total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
-            document.getElementById('total').textContent = `$${total}`;
+        function renderCart() {
+            const cartSummary = document.getElementById('cart');
+            cartSummary.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartSummary.innerHTML = '<p>Your cart is empty.</p>';
+                return;
+            }
+
+            let total = 0;
+            cart.forEach(item => {
+                const cartItem = document.createElement('p');
+                cartItem.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+                cartSummary.appendChild(cartItem);
+                total += item.price;
+            });
+
+            const totalElement = document.createElement('p');
+            totalElement.innerHTML = `<strong>Total: $${total.toFixed(2)}</strong>`;
+            cartSummary.appendChild(totalElement);
         }
 
-        // Load all products
-        loadProducts(snacks, 'snack-list');
-        loadProducts(candy, 'candy-list');
-        loadProducts(drinks, 'drink-list');
-
-        // Form submission
-        document.getElementById("form").addEventListener("submit", function (e) {
+        document.getElementById('order-form').addEventListener('submit', function (e) {
             e.preventDefault();
-            const message = document.getElementById("message");
-            const submitButton = document.getElementById("submit-button");
-            message.textContent = "Submitting...";
-            message.style.display = "block";
-            submitButton.disabled = true;
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const studentId = document.getElementById('student-id').value;
 
-            const formData = new FormData(this);
-            const formDataString = new URLSearchParams(formData).toString();
+            if (!cart.length) {
+                alert('Your cart is empty!');
+                return;
+            }
 
+            const order = {
+                name,
+                email,
+                studentId,
+                cart,
+                total: cart.reduce((sum, item) => sum + item.price, 0)
+            };
+
+            // Send the order to Google Sheets (via Apps Script)
             fetch("https://script.google.com/macros/s/AKfycbxkWz45FAha6OpNRRS4GKqe7tctGHaT49gENZdq9DmlpVDAH773riFT_0Xp9Ov7Z3Bq/exec", {
-                method: "POST",
-                body: formDataString,
+                method: 'POST',
+                body: JSON.stringify(order),
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
+                    'Content-Type': 'application/json'
+                }
             })
-                .then(response => response.text())
-                .then(() => {
-                    message.textContent = "Order submitted successfully!";
-                    message.style.backgroundColor = "green";
-                    submitButton.disabled = false;
-                    this.reset();
-                    cart = [];
-                    updateTotal();
-                    setTimeout(() => message.style.display = "none", 3000);
-                })
-                .catch(error => {
-                    console.error(error);
-                    message.textContent = "An error occurred while submitting the form.";
-                    message.style.backgroundColor = "red";
-                    submitButton.disabled = false;
-                });
+            .then(response => response.json())
+            .then(data => {
+                alert('Order submitted successfully!');
+                cart.length = 0; // Clear the cart
+                renderCart();
+                document.getElementById('order-form').reset();
+            })
+            .catch(error => console.error('Error:', error));
         });
+
+        renderProducts();
     </script>
 </body>
 </html>
